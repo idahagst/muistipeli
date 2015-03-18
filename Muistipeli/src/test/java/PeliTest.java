@@ -37,5 +37,30 @@ public class PeliTest {
     public void tearDown() {
     }
 
-    
+    @Test
+    public void lisaaKorttiToimii(){
+        Peli peli = new Peli();
+        peli.lisaaKortti("kortti");
+        peli.lisaaKortti("kortti2");
+        int vastaus = peli.getKorttienLukumaara();
+        assertEquals(2, vastaus);
+    }
+    @Test
+    public void poistaKortitToimii(){
+        Peli peli = new Peli();
+        peli.lisaaKortti("kortti");
+        peli.lisaaKortti("kortti2");
+        peli.poistaKortit();
+        int vastaus = peli.getKorttienLukumaara();
+        assertEquals(0, vastaus);
+    }
+//    @Test
+//    public void aloitaPeliToimii(){
+//        Peli peli = new Peli();
+//        peli.lisaaKortti("kortti1");
+//        peli.lisaaKortti("kortti2");
+//        peli.aloitaPeli();
+//        assertEquals("kortti1, kortti2", peli.arvoKortit());
+//        
+//    }
 }
