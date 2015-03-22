@@ -42,7 +42,7 @@ public class PeliTest {
         Peli peli = new Peli();
         peli.lisaaKortti("kortti");
         peli.lisaaKortti("kortti2");
-        int vastaus = peli.getKorttienLukumaara();
+        int vastaus = peli.getKorttiparienLukumaara();
         assertEquals(2, vastaus);
     }
     @Test
@@ -51,7 +51,7 @@ public class PeliTest {
         peli.lisaaKortti("kortti");
         peli.lisaaKortti("kortti2");
         peli.poistaKortit();
-        int vastaus = peli.getKorttienLukumaara();
+        int vastaus = peli.getKorttiparienLukumaara();
         assertEquals(0, vastaus);
     }
 //    @Test

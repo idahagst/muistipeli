@@ -13,10 +13,12 @@ public class Pelaaja {
     
     private String nimi;
     private int loydetytParit;
+    private int yritystenMaara;
     
     public Pelaaja(String nimi){
        this.nimi = nimi;
        this.loydetytParit = 0;
+       this.yritystenMaara = 0;
     }
     
     public String getNimi(){
@@ -27,10 +29,21 @@ public class Pelaaja {
         return this.loydetytParit;
     }
     
+    public int getYritystenMaara(){
+        return this.yritystenMaara;
+    }
+    
     public void lisaaPari(){
         this.loydetytParit++;
     }
     
+    public void lisaaYritys(){
+        this.yritystenMaara++;
+    }
+    
+    public void nollaaYritykset(){
+        this.yritystenMaara = 0;
+    }
     public void nollaaLoydetyt(){
         this.loydetytParit = 0;
     }
