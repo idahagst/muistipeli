@@ -54,13 +54,13 @@ public class PeliTest {
         int vastaus = peli.getKorttiparienLukumaara();
         assertEquals(0, vastaus);
     }
-//    @Test
-//    public void aloitaPeliToimii(){
-//        Peli peli = new Peli();
-//        peli.lisaaKortti("kortti1");
-//        peli.lisaaKortti("kortti2");
-//        peli.aloitaPeli();
-//        assertEquals("kortti1, kortti2", peli.arvoKortit());
-//        
-//    }
+    @Test
+    public void aloitaPeliToimii(){
+        Peli peli = new Peli();
+        peli.lisaaKortti("kortti1");
+        peli.lisaaKortti("kortti2");
+        peli.aloitaPeli();
+        assertEquals("kortti1, kortti2", peli.arvoKortit());
+        
+    }
 }
