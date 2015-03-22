@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Logiikka.Peli;
-import java.util.ArrayList;
+package Logiikka;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
