@@ -10,6 +10,8 @@ import Logiikka.Peli;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -21,6 +23,7 @@ public class Tapahtumankuuntelija implements ActionListener {
     private JButton aloita;
     private JButton lopeta;
     private JTextField yritystenMaara;
+    private JLabel tasonvalinta;
     private Kayttoliittyma kayttoliittyma;
     private Peli peli;
     private Pelaaja pelaaja;
@@ -30,6 +33,7 @@ public class Tapahtumankuuntelija implements ActionListener {
         this.aloita = aloita;
         this.lopeta = lopeta;
         this.yritystenMaara = yritystenMaara;
+        this.tasonvalinta = tasonvalinta;
         this.kayttoliittyma = new Kayttoliittyma();
         this.peli = new Peli();
         this.pelaaja = new Pelaaja("");
@@ -41,6 +45,7 @@ public class Tapahtumankuuntelija implements ActionListener {
         } else if (e.getSource() == lopeta){
             peli.lopetaPeli();
         } 
+        
         int yritykset = pelaaja.getYritystenMaara();
         yritystenMaara.setText("" + yritykset);
     }
