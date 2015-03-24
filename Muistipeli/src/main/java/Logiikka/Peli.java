@@ -16,102 +16,113 @@ import java.util.Scanner;
 public class Peli {
     
     private Scanner lukija;
-    private ArrayList<String> kortit;
+    private Kortti[][] kortit;//taulukko joka pitää sisällään kortteja
+    private ArrayList<Kortti> korttilista = new ArrayList<Kortti>();
     private Pelaaja pelaaja;
     private boolean ensimmainenKorttiKaannetty;
     private boolean toinenKorttiKaannetty;
-    private String ekaKortti;
-    private String tokaKortti;
+    private int ekaKortti;
+    private int tokaKortti;
     private int yrityksiaJaljella;
-    private ArrayList<String> kortitPelissa;
+    private ArrayList<Integer> kortitPelissa;
     
     public Peli(){
-        this.kortit = new ArrayList<String>();
+        this.kortit = new Kortti[5][4];
         this.pelaaja = new Pelaaja("");
         //this.yrityksiaJaljella = ?;
         // aloitaPeli();
     }
     
-    public void lisaaKortti(String nimi){
-        kortit.add(nimi);
+    public void lisaaKortti(Kortti kortti){
+        korttilista.add(kortti);
         
     }
     
-    public void poistaKortit(){
-        kortit.removeAll(kortit);
+    public void poistaKortit() {
+        korttilista.removeAll(korttilista);
     }
-    
-    public ArrayList getKortit(){
-        return kortit;
+
+    public ArrayList getKortit() {
+        return korttilista;
     }
-    
-    public int getKorttiparienLukumaara(){
-        return kortit.size();
+
+    public int getKorttiparienLukumaara() {
+        return korttilista.size();
     }
     
     public void aloitaPeli(){
         ensimmainenKorttiKaannetty = false;
         toinenKorttiKaannetty = false;
-        valitseTaso();
+        arvoKortit();
     }
-    public void valitseTaso(){
-        System.out.println("Kuinka monta korttiparia?");
-        int korttiparienMaara = Integer.parseInt(lukija.nextLine());
-        arvoKortit(korttiparienMaara);
-    }
+//    public void valitseTaso(){
+//        System.out.println("Kuinka monta korttiparia?");
+//        int korttiparienMaara = Integer.parseInt(lukija.nextLine());
+//        arvoKortit();
+//    }
     
-    public ArrayList arvoKortit(int kuinkaMontaParia){
-        int parienMaara = kuinkaMontaParia;
-        Collections.shuffle(kortit);
-        kortitPelissa = new ArrayList<String>();
+    public Kortti[][] arvoKortit(){
+        int parienMaara = 10;
+        kortitPelissa = new ArrayList<Integer>();
         int i = 0;
-        while(i<=parienMaara){
-            kortitPelissa.add(kortit.get(i));
-            kortitPelissa.add(kortit.get(i));
+        while(i<parienMaara){
+            kortitPelissa.add(i);
+            kortitPelissa.add(i);
             i++;
         }
-        return kortitPelissa;
+        Collections.shuffle(kortitPelissa);
+        for(int y=0; y<5; y++){
+            for(int x=0; x<4; x++){
+                Kortti kortti = new Kortti(kortitPelissa.get(0));
+                kortit[y][x] = kortti;
+                
+            }
+        }
+        return kortit;
                 
     }
     
-    public void kaannaKortti(){
+    public void kaannaKortti(int kortinNumero){
         int korttienMaara = kortitPelissa.size();
-        if(korttienMaara >=2){
+        
         if(ensimmainenKorttiKaannetty == false && toinenKorttiKaannetty == false){
            ensimmainenKorttiKaannetty = true;
-           //ekaKortti = jostain saataisiin ekan käännetyn kortin nimi 
+           ekaKortti = kortinNumero;
             
         } else if (ensimmainenKorttiKaannetty == true && toinenKorttiKaannetty == false){
             toinenKorttiKaannetty = true;
-            //tokaKortti = jostain tokan käännetyn kortin nimi
+            tokaKortti = kortinNumero;
             if (ekaKortti == tokaKortti){
                 pelaaja.lisaaPari();
                 pelaaja.lisaaYritys();
 //                this.yrityksiaJaljella--;
+                //pitää poistaa pöydältä löydetty pari
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
                 korttienMaara = korttienMaara - 2;
-                //pitää poistaa pöydältä löydetty pari
+                if(korttienMaara<2){
+                    lopetaPeli();
+                }
+                
             } else {
-                System.out.println("Kortit eivät olleet samat");
                 pelaaja.lisaaYritys();
 //                this.yrityksiaJaljella--;
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
                 // kääntääkö äskeinen kortit takaisin vai miten käännetään?
             }
+        }
+    }
             
-        }
-        } else if( korttienMaara<2){
-            lopetaPeli();
-        }
+        
+        
         
 //        else if(this.yrityksiaJaljella == 0) {
 //            System.out.println("Sinulla ei ole enää yrityksiä");
 //            lopetaPeli();
 //        }
         
-    }
+    
     
     public void lopetaPeli(){
         kortitPelissa.removeAll(kortitPelissa);
