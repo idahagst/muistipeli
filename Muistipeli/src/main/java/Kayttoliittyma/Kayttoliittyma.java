@@ -33,6 +33,7 @@ public class Kayttoliittyma implements Runnable{
 
     }
 
+    @Override
     public void run() {
         frame = new JFrame("Muistipeli");
         frame.setPreferredSize(new Dimension(800, 500));

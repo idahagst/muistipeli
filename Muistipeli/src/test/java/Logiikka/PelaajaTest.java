@@ -50,12 +50,27 @@ public class PelaajaTest {
         assertEquals(0, vastaus);
     }
     @Test
+    public void YrityksetAlussaNolla(){
+        Pelaaja pelaaja = new Pelaaja("123");
+        int vastaus = pelaaja.getYritystenMaara();
+        assertEquals(0, vastaus);
+    }
+    @Test
     public void lisaaPariLisaaParin(){
         Pelaaja pelaaja = new Pelaaja("123");
         pelaaja.lisaaPari();
         pelaaja.lisaaPari();
         int vastaus = pelaaja.getLoydetytParit();
         assertEquals(2, vastaus);
+    }
+    @Test
+    public void lisaaYritysLisaaYrityksen(){
+        Pelaaja pelaaja = new Pelaaja("123");
+        pelaaja.lisaaYritys();
+        pelaaja.lisaaYritys();
+        pelaaja.lisaaYritys();
+        int vastaus = pelaaja.getYritystenMaara();
+        assertEquals(3, vastaus);
     }
     @Test
     public void nollaajaNollaaParit(){
@@ -65,5 +80,20 @@ public class PelaajaTest {
         pelaaja.nollaaLoydetyt();
         int vastaus = pelaaja.getLoydetytParit();
         assertEquals(0, vastaus);
+    }
+    @Test
+    public void nollaajaNollaaYritykset(){
+        Pelaaja pelaaja = new Pelaaja("123");
+        pelaaja.lisaaYritys();
+        pelaaja.lisaaYritys();
+        pelaaja.nollaaYritykset();
+        int vastaus = pelaaja.getYritystenMaara();
+        assertEquals(0, vastaus);
+    }
+    @Test
+    public void getNimiAntaaNimen(){
+        Pelaaja pelaaja = new Pelaaja("nimi");
+        String vastaus = pelaaja.getNimi();
+        assertEquals("nimi", vastaus);
     }
 }

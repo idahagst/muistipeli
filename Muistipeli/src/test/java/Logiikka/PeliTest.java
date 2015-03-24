@@ -5,6 +5,7 @@
  */
 package Logiikka;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -53,6 +54,24 @@ public class PeliTest {
         peli.poistaKortit();
         int vastaus = peli.getKorttiparienLukumaara();
         assertEquals(0, vastaus);
+    }
+    @Test
+    public void getKortitAntaaKortit(){
+        Peli peli = new Peli();
+        ArrayList<String> kortti = new ArrayList<String>();
+        peli.lisaaKortti("kortti1"); kortti.add("kortti1");
+        peli.lisaaKortti("kortti2"); kortti.add("kortti2");
+        peli.lisaaKortti("kortti3"); kortti.add("kortti3");
+        ArrayList<String> vastaus = peli.getKortit();
+        assertEquals(kortti, vastaus);
+    }
+    @Test 
+    public void getKorttiParienLukumaaraAntaaOikeanLukumaaran(){
+        Peli peli = new Peli();
+        peli.lisaaKortti("1");
+        peli.lisaaKortti("2");
+        int vastaus = peli.getKorttiparienLukumaara();
+        assertEquals(2, vastaus);
     }
 //    @Test
 //    public void aloitaPeliToimii(){
