@@ -20,7 +20,9 @@ import javax.swing.JTextField;
  */
 public class Tapahtumankuuntelija implements ActionListener {
     
-    private JButton aloita;
+    private JButton aloitahelppo;
+    private JButton aloitakeskivaikea;
+    private JButton aloitavaikea;
     private JButton lopeta;
     private JTextField yritystenMaara;
     private JLabel tasonvalinta;
@@ -29,24 +31,32 @@ public class Tapahtumankuuntelija implements ActionListener {
     private Pelaaja pelaaja;
     
 
-    public Tapahtumankuuntelija(JButton aloita, JButton lopeta, JTextField yritystenMaara){
-        this.aloita = aloita;
+    Tapahtumankuuntelija(JButton aloitahelppo, JButton aloitakeskivaikea, JButton aloitavaikea, JButton lopeta, JTextField yritystenMaara){
+        this.aloitahelppo = aloitahelppo;
+        this.aloitakeskivaikea = aloitakeskivaikea;
+        this.aloitavaikea = aloitavaikea;
         this.lopeta = lopeta;
         this.yritystenMaara = yritystenMaara;
-        this.tasonvalinta = tasonvalinta;
+//        this.tasonvalinta = tasonvalinta;
         this.kayttoliittyma = new Kayttoliittyma();
         this.peli = new Peli();
         this.pelaaja = new Pelaaja("");
     }
+
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == aloita){
-            peli.aloitaPeli();
-        } else if (e.getSource() == lopeta){
+        if(e.getSource() == aloitahelppo){
+            peli.aloitaPeli(3,4);
+        } else if(e.getSource() == aloitakeskivaikea){
+            peli.aloitaPeli(5,4);
+        } else if(e.getSource()== aloitavaikea){
+            peli.aloitaPeli(6,6);
+        }else if (e.getSource() == lopeta){
             peli.lopetaPeli();
-        } 
         
         int yritykset = pelaaja.getYritystenMaara();
         yritystenMaara.setText("" + yritykset);
     }
+}
 }

@@ -27,7 +27,7 @@ public class Peli {
     private ArrayList<Integer> kortitPelissa;
     
     public Peli(){
-        this.kortit = new Kortti[5][4];
+//        this.kortit = new Kortti[y][x];
         this.pelaaja = new Pelaaja("");
         //this.yrityksiaJaljella = ?;
         // aloitaPeli();
@@ -50,7 +50,8 @@ public class Peli {
         return korttilista.size();
     }
     
-    public void aloitaPeli(){
+    public void aloitaPeli(int y, int x){
+        this.kortit = new Kortti[y][x];
         ensimmainenKorttiKaannetty = false;
         toinenKorttiKaannetty = false;
         arvoKortit();
