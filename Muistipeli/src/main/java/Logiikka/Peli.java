@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class Peli {
     
     private Scanner lukija;
-    private Kortti[][] kortit;//taulukko joka pitää sisällään kortteja
+    private Kortti[][] kortit;//taulukko joka pitÃ¤Ã¤ sisÃ¤llÃ¤Ã¤n kortteja
     private ArrayList<Kortti> korttilista = new ArrayList<Kortti>();
     private Pelaaja pelaaja;
     private boolean ensimmainenKorttiKaannetty;
@@ -25,6 +25,8 @@ public class Peli {
     private int tokaKortti;
     private int yrityksiaJaljella;
     private ArrayList<Integer> kortitPelissa;
+    private int korkeus;
+    private int leveys;
     
     public Peli(){
 //        this.kortit = new Kortti[y][x];
@@ -42,15 +44,17 @@ public class Peli {
         korttilista.removeAll(korttilista);
     }
 
-    public ArrayList getKortit() {
-        return korttilista;
-    }
+//    public ArrayList getKortit() {
+//        return korttilista;
+//    }
 
     public int getKorttiparienLukumaara() {
         return korttilista.size();
     }
     
     public void aloitaPeli(int y, int x){
+        this.korkeus = y;
+        this.leveys = x;
         this.kortit = new Kortti[y][x];
         ensimmainenKorttiKaannetty = false;
         toinenKorttiKaannetty = false;
@@ -62,8 +66,8 @@ public class Peli {
 //        arvoKortit();
 //    }
     
-    public Kortti[][] arvoKortit(){
-        int parienMaara = 10;
+    public void arvoKortit(){
+        int parienMaara = leveys*korkeus/2;
         kortitPelissa = new ArrayList<Integer>();
         int i = 0;
         while(i<parienMaara){
@@ -72,15 +76,25 @@ public class Peli {
             i++;
         }
         Collections.shuffle(kortitPelissa);
-        for(int y=0; y<5; y++){
-            for(int x=0; x<4; x++){
+        for(int y=0; y<korkeus; y++){
+            for(int x=0; x<leveys; x++){
                 Kortti kortti = new Kortti(kortitPelissa.get(0));
                 kortit[y][x] = kortti;
                 
             }
         }
-        return kortit;
+        
+        
                 
+    }
+    public int pelinKorkeus(){
+        return this.korkeus;
+    }
+    public int pelinLeveys(){
+        return this.leveys;
+    }
+    public Kortti[][] getKortit(){
+        return kortit;
     }
     
     public void kaannaKortti(int kortinNumero){
@@ -97,7 +111,7 @@ public class Peli {
                 pelaaja.lisaaPari();
                 pelaaja.lisaaYritys();
 //                this.yrityksiaJaljella--;
-                //pitää poistaa pöydältä löydetty pari
+                //pitÃ¤Ã¤ poistaa pÃ¶ydÃ¤ltÃ¤ lÃ¶ydetty pari
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
                 korttienMaara = korttienMaara - 2;
@@ -110,16 +124,26 @@ public class Peli {
 //                this.yrityksiaJaljella--;
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
-                // kääntääkö äskeinen kortit takaisin vai miten käännetään?
+                // kÃ¤Ã¤ntÃ¤Ã¤kÃ¶ Ã¤skeinen kortit takaisin vai miten kÃ¤Ã¤nnetÃ¤Ã¤n?
             }
         }
+    }
+    
+    public boolean onkoKortitSamat(){
+        if(ekaKortti == tokaKortti){
+            pelaaja.lisaaPari();
+            pelaaja.lisaaYritys();
+            return true;
+        } 
+        pelaaja.lisaaYritys();
+        return false;
     }
             
         
         
         
 //        else if(this.yrityksiaJaljella == 0) {
-//            System.out.println("Sinulla ei ole enää yrityksiä");
+//            System.out.println("Sinulla ei ole enÃ¤Ã¤ yrityksiÃ¤");
 //            lopetaPeli();
 //        }
         
@@ -127,9 +151,9 @@ public class Peli {
     
     public void lopetaPeli(){
         kortitPelissa.removeAll(kortitPelissa);
-        System.out.println("Peli päättyi");
-        System.out.print("Käytit " + pelaaja.getYritystenMaara() + "yritystä.");
-        System.out.println("Löysit" + pelaaja.getLoydetytParit() + "paria.");
+        System.out.println("Peli pÃ¤Ã¤ttyi");
+        System.out.print("KÃ¤ytit " + pelaaja.getYritystenMaara() + "yritystÃ¤.");
+        System.out.println("LÃ¶ysit" + pelaaja.getLoydetytParit() + "paria.");
         
     }
     

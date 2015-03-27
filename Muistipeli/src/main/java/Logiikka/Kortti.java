@@ -10,9 +10,18 @@ package Logiikka;
  * @author Ida
  */
 public class Kortti {
+    private boolean onkoKaannetty;
     private int numero;
     
     public Kortti(int numero){
         this.numero= numero;
+        this.onkoKaannetty = false;
+    }
+    
+    public boolean onkoKaannetty(){
+        return this.onkoKaannetty;
+    }
+    public int kortinNumero(){
+        return this.numero;
     }
 }

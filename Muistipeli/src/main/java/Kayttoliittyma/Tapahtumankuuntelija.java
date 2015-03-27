@@ -31,14 +31,14 @@ public class Tapahtumankuuntelija implements ActionListener {
     private Pelaaja pelaaja;
     
 
-    Tapahtumankuuntelija(JButton aloitahelppo, JButton aloitakeskivaikea, JButton aloitavaikea, JButton lopeta, JTextField yritystenMaara){
+    Tapahtumankuuntelija(Kayttoliittyma liittyma, JButton aloitahelppo, JButton aloitakeskivaikea, JButton aloitavaikea, JButton lopeta, JTextField yritystenMaara){
+        this.kayttoliittyma = liittyma;
         this.aloitahelppo = aloitahelppo;
         this.aloitakeskivaikea = aloitakeskivaikea;
         this.aloitavaikea = aloitavaikea;
         this.lopeta = lopeta;
         this.yritystenMaara = yritystenMaara;
 //        this.tasonvalinta = tasonvalinta;
-        this.kayttoliittyma = new Kayttoliittyma();
         this.peli = new Peli();
         this.pelaaja = new Pelaaja("");
     }
