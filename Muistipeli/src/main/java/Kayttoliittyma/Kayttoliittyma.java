@@ -9,9 +9,11 @@ import Logiikka.Kortti;
 import Logiikka.Pelaaja;
 import Logiikka.Peli;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +42,7 @@ public class Kayttoliittyma implements ActionListener {
     private JButton aloitavaikea;
     private JButton lopeta;
     private JTextArea yritystenMaara;
+    private Graphics g;
 
     public Kayttoliittyma(Peli peli) {
         this.muistipeli = peli;
@@ -49,9 +52,11 @@ public class Kayttoliittyma implements ActionListener {
     public void Ikkuna() {
         peliIkkuna = new JFrame("Muistipeli");
         peliIkkuna.setPreferredSize(new Dimension(800, 500));
-        peliIkkuna.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        peliIkkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         peliIkkuna.pack();
         luoNapit();
+        RectDraw newrect = new RectDraw();
+        peliIkkuna.add(newrect);
         peliIkkuna.setVisible(true);
     }
 
@@ -86,24 +91,36 @@ public class Kayttoliittyma implements ActionListener {
             for (int x = 0; x < muistipeli.pelinLeveys(); x++) {
                 Kortti kortti = kortit[y][x];
                 int kortinNumero = kortti.kortinNumero();
-
-                //MitÃ¤ JButtonin sisÃ¤lle laitetaan?
                 JButton luotuKortti = new JButton("" + kortinNumero);
                 luotuKortti.addActionListener(this);
 
                 korttipaneeli.add(luotuKortti);
 
-        // kÃ¤ydÃ¤Ã¤n korttei lÃ¤pi for silmukoilla ja sisimmÃ¤ssÃ¤ silmukassa luodaan kaikille jbuttonit
+                // kÃ¤ydÃ¤Ã¤n korttei lÃ¤pi for silmukoilla ja sisimmÃ¤ssÃ¤ silmukassa luodaan kaikille jbuttonit
                 // jbuttonin nimi on joko tyhjÃ¤ tai kortin numero riippuen kummin pÃ¤in
                 //lisÃ¤Ã¤ taulukko, jossa kortit on tÃ¤nne
             }
         }
-        peliIkkuna.add(korttipaneeli, BorderLayout.CENTER);
+        peliIkkuna.add(korttipaneeli, BorderLayout.SOUTH);
 
     }
 
-    public JFrame getFrame() {
-        return peliIkkuna;
+    private static class RectDraw extends JPanel {
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            draw(g);
+        }
+
+        public void draw(Graphics g) {
+            for (int i = 10; i < 250; i = i + 120) {
+                for(int j = 10; j<300; j = j+120){
+                int x = j+10;
+                int y = i+10;
+                g.drawRect(x, y, 100, 100);
+            }
+            }
+        }
     }
 
     @Override
@@ -122,4 +139,25 @@ public class Kayttoliittyma implements ActionListener {
         }
 
     }
+
+    public JFrame getFrame() {
+        return peliIkkuna;
+    }
+    //taulukosta tiedot miten aina kuva repaintataan tällöin logiikka tietää
+    //mikä kuva on oikeinpäin ja mikä väärinpäin ja muut jutut jolloin JFrameen 
+    //piirretään 
+    //aina kun painetaan nappii niin repaint peli uudelleen
+    //Rectangle bounds = new Rectangle(korkeus, leveys, y, x); tms piirtää neliön
+    //loopataan taulukkoa logiikassa josta saadaan tiedot ja piirretään
+    //seurataan hiirtä, jos se on kohdassa johon on piirretty kortti, niin repaint 
+    //koko paska ja logiikan puolella tarkastellaan muita juttuja
+    //eli jos se missä kohtaa hiiri on, on samassa kohtaa ku taulukon kohta esim [1][2] 
+    //niin logiikassa muutetaan tämä kortti käännetyksi ja käännetään toinen kortti samaan
+    //tapaan ja tämän jälkeen logiikassa verrataan näitä kortteja ja tehdään tarvittavat 
+    //jutut jonka jälkeen piirretään taas uudelleen pelilauta vastaamaan oikeaa 
+
+    //jos ollaan tietyssa kohdassa kuvaa ja tiedetään sen koordinaatit niin hiirenkuuntelijalla
+    //katsotaan missä ollaan ja loopataan kaikki taulukon kohdat ja katsotaan mikä kohta
+    //vastaa sitä mihin hiirellä painetaan ja logiikassa tehdään loput eli käännetään
+    //ja sen jälkeen piirretään uudelleen
 }
