@@ -17,6 +17,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +34,7 @@ import javax.swing.WindowConstants;
  *
  * @author Ida
  */
-public class Kayttoliittyma implements ActionListener {
+public class Kayttoliittyma implements ActionListener, MouseListener {
 
     private Peli muistipeli;
     private Pelaaja pelaaja;
@@ -57,6 +59,7 @@ public class Kayttoliittyma implements ActionListener {
         luoNapit();
         RectDraw newrect = new RectDraw();
         peliIkkuna.add(newrect);
+//        newrect.addMouseListener(this);
         peliIkkuna.setVisible(true);
     }
 
@@ -84,25 +87,27 @@ public class Kayttoliittyma implements ActionListener {
         peliIkkuna.add(nappipaneeli, BorderLayout.NORTH);
     }
 
-    public void luoKortit() {
-        JPanel korttipaneeli = new JPanel(new GridLayout(1, 5));
-        Kortti[][] kortit = muistipeli.getKortit();
-        for (int y = 0; y < muistipeli.pelinKorkeus(); y++) {
-            for (int x = 0; x < muistipeli.pelinLeveys(); x++) {
-                Kortti kortti = kortit[y][x];
-                int kortinNumero = kortti.kortinNumero();
-                JButton luotuKortti = new JButton("" + kortinNumero);
-                luotuKortti.addActionListener(this);
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
-                korttipaneeli.add(luotuKortti);
+    }
 
-                // kÃ¤ydÃ¤Ã¤n korttei lÃ¤pi for silmukoilla ja sisimmÃ¤ssÃ¤ silmukassa luodaan kaikille jbuttonit
-                // jbuttonin nimi on joko tyhjÃ¤ tai kortin numero riippuen kummin pÃ¤in
-                //lisÃ¤Ã¤ taulukko, jossa kortit on tÃ¤nne
-            }
-        }
-        peliIkkuna.add(korttipaneeli, BorderLayout.SOUTH);
+    @Override
+    public void mousePressed(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
     private static class RectDraw extends JPanel {
@@ -113,15 +118,20 @@ public class Kayttoliittyma implements ActionListener {
         }
 
         public void draw(Graphics g) {
-            for (int i = 10; i < 250; i = i + 120) {
-                for(int j = 10; j<300; j = j+120){
-                int x = j+10;
-                int y = i+10;
-                g.drawRect(x, y, 100, 100);
-            }
+            for (int i = 20; i < 250; i = i + 120) {
+                for (int j = 20; j < 300; j = j + 120) {
+                    int x = j;
+                    int y = i;
+
+                    g.drawRect(x, y, 100, 100);
+                }
             }
         }
     }
+
+//    public void mousePressed(MouseEvent e) {
+//        
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -143,21 +153,25 @@ public class Kayttoliittyma implements ActionListener {
     public JFrame getFrame() {
         return peliIkkuna;
     }
-    //taulukosta tiedot miten aina kuva repaintataan tällöin logiikka tietää
-    //mikä kuva on oikeinpäin ja mikä väärinpäin ja muut jutut jolloin JFrameen 
-    //piirretään 
-    //aina kun painetaan nappii niin repaint peli uudelleen
-    //Rectangle bounds = new Rectangle(korkeus, leveys, y, x); tms piirtää neliön
-    //loopataan taulukkoa logiikassa josta saadaan tiedot ja piirretään
-    //seurataan hiirtä, jos se on kohdassa johon on piirretty kortti, niin repaint 
-    //koko paska ja logiikan puolella tarkastellaan muita juttuja
-    //eli jos se missä kohtaa hiiri on, on samassa kohtaa ku taulukon kohta esim [1][2] 
-    //niin logiikassa muutetaan tämä kortti käännetyksi ja käännetään toinen kortti samaan
-    //tapaan ja tämän jälkeen logiikassa verrataan näitä kortteja ja tehdään tarvittavat 
-    //jutut jonka jälkeen piirretään taas uudelleen pelilauta vastaamaan oikeaa 
+//    public void luoKortit() {
+//        JPanel korttipaneeli = new JPanel(new GridLayout(1, 5));
+//        Kortti[][] kortit = muistipeli.getKortit();
+//        for (int y = 0; y < muistipeli.pelinKorkeus(); y++) {
+//            for (int x = 0; x < muistipeli.pelinLeveys(); x++) {
+//                Kortti kortti = kortit[y][x];
+//                int kortinNumero = kortti.kortinNumero();
+//                JButton luotuKortti = new JButton("" + kortinNumero);
+//                luotuKortti.addActionListener(this);
+//
+//                korttipaneeli.add(luotuKortti);
+//
+//                // kÃ¤ydÃ¤Ã¤n korttei lÃ¤pi for silmukoilla ja sisimmÃ¤ssÃ¤ silmukassa luodaan kaikille jbuttonit
+//                // jbuttonin nimi on joko tyhjÃ¤ tai kortin numero riippuen kummin pÃ¤in
+//                //lisÃ¤Ã¤ taulukko, jossa kortit on tÃ¤nne
+//            }
+//        }
+//        peliIkkuna.add(korttipaneeli, BorderLayout.SOUTH);
+//
+//    }
 
-    //jos ollaan tietyssa kohdassa kuvaa ja tiedetään sen koordinaatit niin hiirenkuuntelijalla
-    //katsotaan missä ollaan ja loopataan kaikki taulukon kohdat ja katsotaan mikä kohta
-    //vastaa sitä mihin hiirellä painetaan ja logiikassa tehdään loput eli käännetään
-    //ja sen jälkeen piirretään uudelleen
 }
