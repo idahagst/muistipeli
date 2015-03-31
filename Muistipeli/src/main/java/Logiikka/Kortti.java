@@ -13,6 +13,7 @@ public class Kortti {
     private boolean onkoKaannetty;
     private int numero;
     
+    
     public Kortti(int numero){
         this.numero= numero;
         this.onkoKaannetty = false;

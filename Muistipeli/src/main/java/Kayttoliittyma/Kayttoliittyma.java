@@ -34,7 +34,7 @@ import javax.swing.WindowConstants;
  *
  * @author Ida
  */
-public class Kayttoliittyma implements ActionListener, MouseListener {
+public class Kayttoliittyma extends JPanel implements ActionListener, MouseListener  {
 
     private Peli muistipeli;
     private Pelaaja pelaaja;
@@ -59,7 +59,7 @@ public class Kayttoliittyma implements ActionListener, MouseListener {
         luoNapit();
         RectDraw newrect = new RectDraw();
         peliIkkuna.add(newrect);
-//        newrect.addMouseListener(this);
+        newrect.addMouseListener(this);
         peliIkkuna.setVisible(true);
     }
 
@@ -87,9 +87,67 @@ public class Kayttoliittyma implements ActionListener, MouseListener {
         peliIkkuna.add(nappipaneeli, BorderLayout.NORTH);
     }
 
+    class RectDraw extends JPanel {
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            draw(g);
+        }
+
+        public void draw(Graphics g) {
+            for (int i = 20; i < 250; i = i + 120) {
+                for (int j = 20; j < 300; j = j + 120) {
+                    int x = j;
+                    int y = i;
+//                    for (int a = 0; a < 3; a++) {
+//                        for (int b = 0; b < 2; b++) {
+//                            if(muistipeli.getKortti(a, b).onkoKaannetty()== false){
+                            //etittäis tietty kortti muistipelistä ja katottais
+                            //onks se käännetty vai ei ja piirretään sen mukaan
+                            //oikeenlainen neliö
+                                g.drawRect(x, y, 100, 100);
+                                g.fillRect(x, y, 100, 100);
+//                            } else{
+//                                g.drawRect(x, y, 100, 100);
+                            }
+//                        }
+//                    }
+//                }
+            }
+        }
+    }
+    
+
+//    public void mousePressed(MouseEvent e) {
+//        
+//    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == aloitahelppo) {
+            muistipeli.aloitaPeli(3, 4);
+        } else if (e.getSource() == aloitakeskivaikea) {
+            muistipeli.aloitaPeli(5, 4);
+        } else if (e.getSource() == aloitavaikea) {
+            muistipeli.aloitaPeli(6, 6);
+        } else if (e.getSource() == lopeta) {
+            muistipeli.lopetaPeli();
+
+            int yritykset = pelaaja.getYritystenMaara();
+            yritystenMaara.setText("" + yritykset);
+        }
+
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getX() <= 120 && e.getX() >= 20 && e.getY() <= 120 && e.getY() >= 20) {
+            Kortti kortti = muistipeli.getKortti(0, 0);
+            muistipeli.kaannaKortti(kortti);
+        } else if (e.getX() <= 240 && e.getX() >= 140 && e.getY() <= 120 && e.getY() >= 20) {
+            Kortti kortti = muistipeli.getKortti(0, 1);
+            muistipeli.kaannaKortti(kortti);
+        }
+        //pitää vielä lisätä muut tai miten ne kannattaa hoitaa?
     }
 
     @Override
@@ -108,46 +166,6 @@ public class Kayttoliittyma implements ActionListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    private static class RectDraw extends JPanel {
-
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            draw(g);
-        }
-
-        public void draw(Graphics g) {
-            for (int i = 20; i < 250; i = i + 120) {
-                for (int j = 20; j < 300; j = j + 120) {
-                    int x = j;
-                    int y = i;
-
-                    g.drawRect(x, y, 100, 100);
-                }
-            }
-        }
-    }
-
-//    public void mousePressed(MouseEvent e) {
-//        
-//    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == aloitahelppo) {
-            muistipeli.aloitaPeli(3, 4);
-        } else if (e.getSource() == aloitakeskivaikea) {
-            muistipeli.aloitaPeli(5, 4);
-        } else if (e.getSource() == aloitavaikea) {
-            muistipeli.aloitaPeli(6, 6);
-        } else if (e.getSource() == lopeta) {
-            muistipeli.lopetaPeli();
-
-            int yritykset = pelaaja.getYritystenMaara();
-            yritystenMaara.setText("" + yritykset);
-        }
-
     }
 
     public JFrame getFrame() {

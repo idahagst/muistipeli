@@ -17,14 +17,14 @@ public class Peli {
 
     private Scanner lukija;
     private Kortti[][] kortit;//taulukko joka pitÃ¤Ã¤ sisÃ¤llÃ¤Ã¤n kortteja
-    private ArrayList<Kortti> korttilista = new ArrayList<Kortti>();
+    private ArrayList<Kortti> korttilista = new ArrayList<Kortti>(); //kaikki mahdolliset kortit
     private Pelaaja pelaaja;
     private boolean ensimmainenKorttiKaannetty;
     private boolean toinenKorttiKaannetty;
     private Kortti ekaKortti;
     private Kortti tokaKortti;
     private int yrityksiaJaljella;
-    private ArrayList<Integer> kortitPelissa;
+    private ArrayList<Integer> kortitPelissa; //pelissä olevat kortit, jokaista listassa kaksi
     private int korkeus;
     private int leveys;
 
@@ -84,6 +84,8 @@ public class Peli {
         }
     }
 
+    
+    
     public int pelinKorkeus() {
         return this.korkeus;
     }
@@ -94,6 +96,10 @@ public class Peli {
 
     public Kortti[][] getKortit() {
         return kortit;
+    }
+    
+    public Kortti getKortti(int y, int x){
+        return kortit[y][x];
     }
 
     public void kaannaKortti(Kortti kortti) {
