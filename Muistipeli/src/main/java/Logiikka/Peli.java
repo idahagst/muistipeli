@@ -78,7 +78,9 @@ public class Peli {
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
                 Kortti kortti = new Kortti(kortitPelissa.get(0));
+                //pitää lisätä taulukkoon tehty kortti, mutta lisääkö allaoleva sen?
                 kortit[y][x] = kortti;
+                kortitPelissa.remove(0); //poistaa 0 jotta aina voidaan ottaa listasta eka
 
             }
         }

@@ -16,6 +16,7 @@ public class Main {
     public static void main(String[] args){
         Peli peli = new Peli();
         Kayttoliittyma liittyma = new Kayttoliittyma(peli);
+        peli.aloitaPeli(2, 3);
         
         
     }
