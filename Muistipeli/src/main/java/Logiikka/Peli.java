@@ -17,24 +17,20 @@ import java.util.Scanner;
 public class Peli {
 
     private Scanner lukija;
-    private Kortti[][] kortit;//taulukko joka pitÃ¤Ã¤ sisÃ¤llÃ¤Ã¤n kortteja
+    private Kortti[][] kortit;
     private ArrayList<Kortti> korttilista = new ArrayList<Kortti>(); //kaikki mahdolliset kortit
     private Pelaaja pelaaja;
     private boolean ensimmainenKorttiKaannetty;
     private boolean toinenKorttiKaannetty;
     private Kortti ekaKortti;
     private Kortti tokaKortti;
-    private int yrityksiaJaljella;
     private ArrayList<Integer> kortitPelissa; //pelissä olevat kortit, jokaista listassa kaksi
     private int korkeus;
     private int leveys;
     private ArrayList<Color> varit;
 
     public Peli() {
-//        this.kortit = new Kortti[y][x];
         this.pelaaja = new Pelaaja("");
-        //this.yrityksiaJaljella = ?;
-        // aloitaPeli();
         this.varit = new ArrayList<Color>();
         varit.add(Color.RED);
         varit.add(Color.BLUE);
@@ -87,8 +83,6 @@ public class Peli {
         }
     }
 
-    
-    
     public int pelinKorkeus() {
         return this.korkeus;
     }
@@ -106,7 +100,6 @@ public class Peli {
     }
 
     public void kaannaKortti(Kortti kortti) {
-        int korttienMaara = kortitPelissa.size();
 
         if (ensimmainenKorttiKaannetty == false && toinenKorttiKaannetty == false) {
             ensimmainenKorttiKaannetty = true;
@@ -128,7 +121,6 @@ public class Peli {
         if (ekaKortti.getVari() == tokaKortti.getVari()) {
                 pelaaja.lisaaPari();
                 pelaaja.lisaaYritys();
-//                this.yrityksiaJaljella--;
                 //pitÃ¤Ã¤ poistaa pÃ¶ydÃ¤ltÃ¤ lÃ¶ydetty pari
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
@@ -144,20 +136,23 @@ public class Peli {
         }
     }
     public void poistaKorttiPelista(Kortti kortti) {
-        kortti.setVari(Color.white);
+        kortti.setVari(Color.GRAY);
     }
 
-    public boolean onkoKortitSamat() {
-        if (ekaKortti.getVari() == tokaKortti.getVari()) {
-            return true;
+    public void kaannaKaikkiKortit(){
+        for(int y = 0; y < korkeus; y++) {
+            for (int x = 0; x < leveys; x++) {
+                kortit[y][x].palautaKaannetty();
+            }
         }
-        return false;
+    }
+    public boolean onkoKaksiKorttiaKaannetty(){
+        return ekaKortti.onkoKaannetty() && tokaKortti.onkoKaannetty();
+    }
+    public boolean onkoKortitSamat() {
+        return ekaKortti.getVari() == tokaKortti.getVari();
     }
 
-//        else if(this.yrityksiaJaljella == 0) {
-//            System.out.println("Sinulla ei ole enÃ¤Ã¤ yrityksiÃ¤");
-//            lopetaPeli();
-//        }
     public void lopetaPeli() {
         kortitPelissa.removeAll(kortitPelissa);
         System.out.println("Peli pÃ¤Ã¤ttyi");

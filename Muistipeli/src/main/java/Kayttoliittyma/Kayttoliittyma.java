@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -129,6 +131,10 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
         muistipeli.kaannaKortti(kortti);
         newrect.repaint();
+        if(muistipeli.onkoKaksiKorttiaKaannetty()){
+            muistipeli.kaannaKaikkiKortit();
+            newrect.repaint();
+        }
     }
 
     @Override
