@@ -5,6 +5,8 @@
  */
 package Logiikka;
 
+import java.awt.Color;
+
 /**
  *
  * @author Ida
@@ -12,11 +14,13 @@ package Logiikka;
 public class Kortti {
     private boolean onkoKaannetty;
     private int numero;
+    private Color vari;
     
     
-    public Kortti(int numero){
+    public Kortti(int numero, Color vari){
         this.numero= numero;
         this.onkoKaannetty = false;
+        this.vari = vari;
     }
     
     public boolean onkoKaannetty(){
@@ -30,5 +34,8 @@ public class Kortti {
     }
     public void palautaKaannetty(){
         this.onkoKaannetty = false;
+    }
+    public Color getVari(){
+        return this.vari;
     }
 }

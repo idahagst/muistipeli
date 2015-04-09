@@ -43,11 +43,12 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private JButton aloitakeskivaikea;
     private JButton aloitavaikea;
     private JButton lopeta;
-    private JTextArea yritystenMaara;
-    private Graphics g;
+    private JTextField yritystenMaara;
+    private RectDraw newrect;
 
     public Kayttoliittyma(Peli peli) {
         this.muistipeli = peli;
+        newrect = new RectDraw(peli);
         Ikkuna();
     }
 
@@ -57,11 +58,11 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         peliIkkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         peliIkkuna.pack();
         luoNapit();
-        RectDraw newrect = new RectDraw();
+
         peliIkkuna.add(newrect);
         newrect.addMouseListener(this);
         peliIkkuna.setVisible(true);
-    }
+    } 
 
 //    private void luoIkkunanOsat(Container container) {
 //        container.add(new JPanel()); // itse muistipeliosa
@@ -81,18 +82,34 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         lopeta = new JButton("Lopeta");
         lopeta.addActionListener(this);
         nappipaneeli.add(lopeta);
-        yritystenMaara = new JTextArea("0");
+        yritystenMaara = new JTextField("0");
         //millä tätä muutetaan?
         nappipaneeli.add(yritystenMaara);
         peliIkkuna.add(nappipaneeli, BorderLayout.NORTH);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
     class RectDraw extends JPanel {
 
         private Peli muistipeli;
 
-        public RectDraw() {
-            this.muistipeli = new Peli();
+        public RectDraw(Peli muistipeli) {
+            this.muistipeli = muistipeli;
         }
 
         public void paintComponent(Graphics g) {
@@ -101,27 +118,24 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         }
 
         public void draw(Graphics g) {
-            for (int i = 20; i < 250; i = i + 120) {
-                for (int j = 20; j < 300; j = j + 120) {
-                    int x = j;
-                    int y = i;
-//                    for (int a = 0; a < 2; a++) {
-//                        for (int b = 0; b < 3; b++) {
-//                            if (muistipeli.getKortti(a, b).onkoKaannetty() == false) {
-                            //etittäis tietty kortti muistipelistä ja katottais
-                                //onks se käännetty vai ei ja piirretään sen mukaan
-                                //oikeenlainen neliö
-                                g.drawRect(x, y, 100, 100);
-                                g.fillRect(x, y, 100, 100);
-//                            } else {
-//                                g.drawRect(x, y, 100, 100);
-//                            }
-//                        }
-//                    }
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 2; j++) {
+                    Kortti kortti = muistipeli.getKortti(j, i);
+                    if (kortti.onkoKaannetty()) {
+                        g.setColor(kortti.getVari());
+                    } else {
+                        g.setColor(Color.black);
+                    }
+                    g.fillRect(20 + i * 120, 20 + j * 120, 100, 100);
+
                 }
             }
+
+//            }
+//        }
         }
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == aloitahelppo) {
@@ -141,34 +155,11 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getX() <= 120 && e.getX() >= 20 && e.getY() <= 120 && e.getY() >= 20) {
-            Kortti kortti = muistipeli.getKortti(0, 0);
-            muistipeli.kaannaKortti(kortti);
-            //pitääkö tässä kutsua uudelleen piirtotyökalua, jotta se piirtää
-            //kortit uudelleen oikein
-        } else if (e.getX() <= 240 && e.getX() >= 140 && e.getY() <= 120 && e.getY() >= 20) {
-            Kortti kortti = muistipeli.getKortti(0, 1);
-            muistipeli.kaannaKortti(kortti);
-        }
-        //pitää vielä lisätä muut tai miten ne kannattaa hoitaa?
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
+        int ykoordinaatti = e.getY() / 120;
+        int xkoordinaatti = e.getX() / 120;
+        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+        muistipeli.kaannaKortti(kortti);
+        newrect.repaint();
     }
 
     public JFrame getFrame() {
