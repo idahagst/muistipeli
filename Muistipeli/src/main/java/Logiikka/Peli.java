@@ -39,8 +39,7 @@ public class Peli {
         varit.add(Color.RED);
         varit.add(Color.BLUE);
         varit.add(Color.GREEN);
-        varit.add(Color.ORANGE);
-        varit.add(Color.PINK);
+        varit.add(Color.YELLOW);
         
     }
 
@@ -52,10 +51,7 @@ public class Peli {
     public void poistaKortit() {
         korttilista.removeAll(korttilista);
     }
-
-//    public ArrayList getKortit() {
-//        return korttilista;
-//    }
+    
     public int getKorttiparienLukumaara() {
         return korttilista.size();
     }
@@ -68,11 +64,6 @@ public class Peli {
         toinenKorttiKaannetty = false;
         arvoKortit();
     }
-//    public void valitseTaso(){
-//        System.out.println("Kuinka monta korttiparia?");
-//        int korttiparienMaara = Integer.parseInt(lukija.nextLine());
-//        arvoKortit();
-//    }
 
     public void arvoKortit() {
         int parienMaara = leveys * korkeus / 2;
@@ -87,12 +78,11 @@ public class Peli {
         int a = 0;
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                 a++;
+                a++;
                 Kortti kortti = new Kortti(kortitPelissa.get(0), varit.get(a/2));
-                //pitää lisätä taulukkoon tehty kortti, mutta lisääkö allaoleva sen?
                 kortit[y][x] = kortti;
-                kortitPelissa.remove(0); //poistaa 0 jotta aina voidaan ottaa listasta eka
-
+                kortitPelissa.remove(0);
+                
             }
         }
     }
@@ -127,7 +117,15 @@ public class Peli {
             toinenKorttiKaannetty = true;
             tokaKortti = kortti;
             tokaKortti.kaannaKortti();
-            if (ekaKortti == tokaKortti) {
+        } else {
+            olikoKortitSamat(ekaKortti, tokaKortti);
+        }
+    }
+    
+    public void olikoKortitSamat(Kortti kortti1, Kortti kortti2){
+        ekaKortti = kortti1;
+        tokaKortti = kortti2;
+        if (ekaKortti.getVari() == tokaKortti.getVari()) {
                 pelaaja.lisaaPari();
                 pelaaja.lisaaYritys();
 //                this.yrityksiaJaljella--;
@@ -136,38 +134,23 @@ public class Peli {
                 toinenKorttiKaannetty = false;
                 ekaKortti.palautaKaannetty();
                 tokaKortti.palautaKaannetty();
-                korttienMaara = korttienMaara - 2;
-                if (korttienMaara < 2) {
-                    lopetaPeli();
-                }
-
-            } else {
-                pelaaja.lisaaYritys();
-//                this.yrityksiaJaljella--;
-                ensimmainenKorttiKaannetty = false;
-                toinenKorttiKaannetty = false;
-                // kÃ¤Ã¤ntÃ¤Ã¤kÃ¶ Ã¤skeinen kortit takaisin vai miten kÃ¤Ã¤nnetÃ¤Ã¤n?
-            }
+        }
+        else{
+            pelaaja.lisaaYritys();
+            ensimmainenKorttiKaannetty = false;
+            toinenKorttiKaannetty = false;
+            ekaKortti.palautaKaannetty();
+            tokaKortti.palautaKaannetty();
         }
     }
-
     public void poistaKorttiPelista(Kortti kortti) {
-        for (int i = 0; i < korkeus; i++) {
-            for (int j = 0; j < leveys; j++) {
-                if (kortti.equals(kortti)) {
-
-                }
-            }
-        }
+        kortti.setVari(Color.white);
     }
 
     public boolean onkoKortitSamat() {
-        if (ekaKortti == tokaKortti) {
-            pelaaja.lisaaPari();
-            pelaaja.lisaaYritys();
+        if (ekaKortti.getVari() == tokaKortti.getVari()) {
             return true;
         }
-        pelaaja.lisaaYritys();
         return false;
     }
 

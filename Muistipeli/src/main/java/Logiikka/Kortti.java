@@ -38,4 +38,7 @@ public class Kortti {
     public Color getVari(){
         return this.vari;
     }
+    public void setVari(Color vari){
+        this.vari = vari;
+    }
 }

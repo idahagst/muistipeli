@@ -19,15 +19,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
@@ -43,7 +38,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private JButton aloitakeskivaikea;
     private JButton aloitavaikea;
     private JButton lopeta;
-    private JTextField yritystenMaara;
+    private JLabel yritystenMaara;
     private RectDraw newrect;
 
     public Kayttoliittyma(Peli peli) {
@@ -58,16 +53,11 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         peliIkkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         peliIkkuna.pack();
         luoNapit();
-
         peliIkkuna.add(newrect);
         newrect.addMouseListener(this);
         peliIkkuna.setVisible(true);
-    } 
+    }
 
-//    private void luoIkkunanOsat(Container container) {
-//        container.add(new JPanel()); // itse muistipeliosa
-//        container.add(luoNapit(), BorderLayout.SOUTH); // napit osio
-//    }
     private void luoNapit() {
         JPanel nappipaneeli = new JPanel(new GridLayout(1, 5));
         aloitahelppo = new JButton("Helppo");
@@ -82,26 +72,10 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         lopeta = new JButton("Lopeta");
         lopeta.addActionListener(this);
         nappipaneeli.add(lopeta);
-        yritystenMaara = new JTextField("0");
+        yritystenMaara = new JLabel("0");
         //millä tätä muutetaan?
         nappipaneeli.add(yritystenMaara);
         peliIkkuna.add(nappipaneeli, BorderLayout.NORTH);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 
     class RectDraw extends JPanel {
@@ -130,27 +104,22 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
 
                 }
             }
-
-//            }
-//        }
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == aloitahelppo) {
-            muistipeli.aloitaPeli(3, 4);
+            muistipeli.aloitaPeli(2, 3);
         } else if (e.getSource() == aloitakeskivaikea) {
-            muistipeli.aloitaPeli(5, 4);
+//            muistipeli.aloitaPeli(5, 4);
         } else if (e.getSource() == aloitavaikea) {
-            muistipeli.aloitaPeli(6, 6);
+//            muistipeli.aloitaPeli(6, 6);
         } else if (e.getSource() == lopeta) {
             muistipeli.lopetaPeli();
-
-            int yritykset = pelaaja.getYritystenMaara();
-            yritystenMaara.setText("" + yritykset);
         }
-
+        int yritykset = pelaaja.getYritystenMaara();
+        yritystenMaara.setText("" + yritykset);
     }
 
     @Override
@@ -162,28 +131,24 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         newrect.repaint();
     }
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
     public JFrame getFrame() {
         return peliIkkuna;
     }
-//    public void luoKortit() {
-//        JPanel korttipaneeli = new JPanel(new GridLayout(1, 5));
-//        Kortti[][] kortit = muistipeli.getKortit();
-//        for (int y = 0; y < muistipeli.pelinKorkeus(); y++) {
-//            for (int x = 0; x < muistipeli.pelinLeveys(); x++) {
-//                Kortti kortti = kortit[y][x];
-//                int kortinNumero = kortti.kortinNumero();
-//                JButton luotuKortti = new JButton("" + kortinNumero);
-//                luotuKortti.addActionListener(this);
-//
-//                korttipaneeli.add(luotuKortti);
-//
-//                // kÃ¤ydÃ¤Ã¤n korttei lÃ¤pi for silmukoilla ja sisimmÃ¤ssÃ¤ silmukassa luodaan kaikille jbuttonit
-//                // jbuttonin nimi on joko tyhjÃ¤ tai kortin numero riippuen kummin pÃ¤in
-//                //lisÃ¤Ã¤ taulukko, jossa kortit on tÃ¤nne
-//            }
-//        }
-//        peliIkkuna.add(korttipaneeli, BorderLayout.SOUTH);
-//
-//    }
-
 }
