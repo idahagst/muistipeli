@@ -89,14 +89,14 @@ public class PeliTest {
     public void pelinKorkeusToimii(){
         Peli peli = new Peli();
         peli.aloitaPeli(2,2);
-        int vastaus = peli.pelinKorkeus();
+        int vastaus = peli.getPelinKorkeus();
         assertEquals(2, vastaus);
     }
      @Test 
     public void peliLeveysToimii(){
         Peli peli = new Peli();
         peli.aloitaPeli(2,2);
-        int vastaus = peli.pelinLeveys();
+        int vastaus = peli.getPelinLeveys();
         assertEquals(2, vastaus);
     }
 //    @Test
