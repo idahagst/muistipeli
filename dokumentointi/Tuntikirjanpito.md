@@ -9,3 +9,4 @@
 31.3.2015 5h Pajassa sain apua miten kortit piirretään ja kotona yritin jatkaa sitä, ja sainkin jotain aikaseksi
 6.4.2015  0,5h Yritin jatkaa koodia, mutten oikeen mitään osannut tehdä
 9.4.2015  4h Pajassa sain paljon apua ja kotona jatkoin ohjelmointia
+10.4.2015 1h Javadocin kirjoittamista ja muut palautetukseen tarvittavat jutut
