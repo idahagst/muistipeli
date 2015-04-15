@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Luokka sisältää kaikki pelin pelaamiseen liittyvät toiminnot
@@ -38,6 +40,11 @@ public class Peli {
         varit.add(Color.BLUE);
         varit.add(Color.GREEN);
         varit.add(Color.YELLOW);
+        varit.add(Color.ORANGE);
+        varit.add(Color.WHITE);
+        varit.add(Color.PINK);
+        varit.add(Color.CYAN);
+        varit.add(Color.MAGENTA);
         
     }
     /**
@@ -131,9 +138,9 @@ public class Peli {
             toinenKorttiKaannetty = true;
             tokaKortti = kortti;
             tokaKortti.kaannaKortti();
-        } else {
-            olikoKortitSamat(ekaKortti, tokaKortti);
+//            olikoKortitSamat(ekaKortti, tokaKortti);
         }
+        olikoKortitSamat(ekaKortti, tokaKortti);
     }
     /**
      * metodi testaa onko kaksi korttia samat
@@ -143,10 +150,11 @@ public class Peli {
     public void olikoKortitSamat(Kortti kortti1, Kortti kortti2){
         ekaKortti = kortti1;
         tokaKortti = kortti2;
-        if (ekaKortti.getVari() == tokaKortti.getVari()) {
+        if (ekaKortti.kortinNumero()==tokaKortti.kortinNumero()) {
                 pelaaja.lisaaPari();
                 pelaaja.lisaaYritys();
-                //pitÃ¤Ã¤ poistaa pÃ¶ydÃ¤ltÃ¤ lÃ¶ydetty pari
+                poistaKorttiPelista(ekaKortti);
+                poistaKorttiPelista(tokaKortti);
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
                 ekaKortti.palautaKaannetty();
@@ -156,8 +164,8 @@ public class Peli {
             pelaaja.lisaaYritys();
             ensimmainenKorttiKaannetty = false;
             toinenKorttiKaannetty = false;
-            ekaKortti.palautaKaannetty();
-            tokaKortti.palautaKaannetty();
+//            ekaKortti.palautaKaannetty();
+//            tokaKortti.palautaKaannetty();
         }
     }
     /**
@@ -165,7 +173,7 @@ public class Peli {
      * @param kortti kortti, joka halutana poistaa 
      */
     public void poistaKorttiPelista(Kortti kortti) {
-        kortti.setVari(Color.GRAY);
+        kortti.setVari(new Color(0f, 0f, 0f, 0f));
     }
     /**
      * metodi kääntää kaikki kortit pelissä kääntämättömiksi
@@ -181,8 +189,11 @@ public class Peli {
      * metodi palauttaa onko kaksi korttia pöydällä käännettynä
      * @return true tai false
      */
-    public boolean onkoKaksiKorttiaKaannetty(){
-        return ekaKortti.onkoKaannetty() && tokaKortti.onkoKaannetty();
+    public void onkoKaksiKorttiaKaannetty(){
+        if(ekaKortti.onkoKaannetty() && tokaKortti.onkoKaannetty()){
+            olikoKortitSamat(ekaKortti, tokaKortti);
+            kaannaKaikkiKortit();
+        }
     }
     /**
      * metodi palauttaa onko kaksi käännettyä korttia samat

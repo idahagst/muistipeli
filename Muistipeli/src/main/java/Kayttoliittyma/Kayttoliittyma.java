@@ -41,22 +41,22 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private JButton aloitavaikea;
     private JButton lopeta;
     private JLabel yritystenMaara;
-    private RectDraw newrect;
+    private RectDraw pelilauta;
 
     public Kayttoliittyma(Peli peli) {
         this.muistipeli = peli;
-        newrect = new RectDraw(peli);
+        pelilauta = new RectDraw(peli);
         Ikkuna();
     }
 
     public void Ikkuna() {
         peliIkkuna = new JFrame("Muistipeli");
-        peliIkkuna.setPreferredSize(new Dimension(800, 500));
+        peliIkkuna.setPreferredSize(new Dimension(800, 600));
         peliIkkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         peliIkkuna.pack();
         luoNapit();
-        peliIkkuna.add(newrect);
-        newrect.addMouseListener(this);
+        peliIkkuna.add(pelilauta);
+        pelilauta.addMouseListener(this);
         peliIkkuna.setVisible(true);
     }
 
@@ -79,7 +79,14 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         nappipaneeli.add(yritystenMaara);
         peliIkkuna.add(nappipaneeli, BorderLayout.NORTH);
     }
-
+    public void lopetaPeli(){
+        JPanel lopetuspaneeli = new JPanel();
+        JLabel lopetusteksti = new JLabel("Peli päättyi!");
+//        JLabel toinenteksti = new JLabel("Käytit " + pelaaja.getYritystenMaara() + "yritystä ja löysit " + pelaaja.getLoydetytParit() + "paria.");
+        lopetuspaneeli.add(lopetusteksti);
+//        lopetuspaneeli.add(toinenteksti);
+        peliIkkuna.add(lopetuspaneeli, BorderLayout.SOUTH);
+    }
     class RectDraw extends JPanel {
 
         private Peli muistipeli;
@@ -94,18 +101,46 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         }
 
         public void draw(Graphics g) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 2; j++) {
-                    Kortti kortti = muistipeli.getKortti(j, i);
-                    if (kortti.onkoKaannetty()) {
-                        g.setColor(kortti.getVari());
-                    } else {
-                        g.setColor(Color.black);
-                    }
-                    g.fillRect(20 + i * 120, 20 + j * 120, 100, 100);
+            if (muistipeli.getPelinKorkeus() == 2) {
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 2; j++) {
+                        Kortti kortti = muistipeli.getKortti(j, i);
+                        if (kortti.onkoKaannetty()) {
+                            g.setColor(kortti.getVari());
+                        } else {
+                            g.setColor(Color.black);
+                        }
+                        g.fillRect(20 + i * 120, 20 + j * 120, 100, 100);
 
+                    }
                 }
-            }
+            } else if (muistipeli.getPelinKorkeus() == 3) {
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        Kortti kortti = muistipeli.getKortti(j, i);
+                        if (kortti.onkoKaannetty()) {
+                            g.setColor(kortti.getVari());
+                        } else {
+                            g.setColor(Color.black);
+                        }
+                        g.fillRect(20 + i * 120, 20 + j * 120, 100, 100);
+
+                    }
+                }
+            } else if (muistipeli.getPelinKorkeus() == 4) {
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        Kortti kortti = muistipeli.getKortti(j, i);
+                        if (kortti.onkoKaannetty()) {
+                            g.setColor(kortti.getVari());
+                        } else {
+                            g.setColor(Color.black);
+                        }
+                        g.fillRect(20 + i * 120, 20 + j * 120, 100, 100);
+
+                    }
+                }
+            } 
         }
     }
 
@@ -113,15 +148,18 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == aloitahelppo) {
             muistipeli.aloitaPeli(2, 3);
+            pelilauta.repaint();
         } else if (e.getSource() == aloitakeskivaikea) {
-//            muistipeli.aloitaPeli(5, 4);
+            muistipeli.aloitaPeli(3, 4);
+            pelilauta.repaint();
         } else if (e.getSource() == aloitavaikea) {
-//            muistipeli.aloitaPeli(6, 6);
+            muistipeli.aloitaPeli(4, 4);
+            pelilauta.repaint();
         } else if (e.getSource() == lopeta) {
-            muistipeli.lopetaPeli();
+            lopetaPeli();
+//            pelilauta.repaint();
         }
-        int yritykset = pelaaja.getYritystenMaara();
-        yritystenMaara.setText("" + yritykset);
+//        yritystenMaara.setText("yritykset:" + pelaaja.getYritystenMaara());
     }
 
     @Override
@@ -130,11 +168,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         int xkoordinaatti = e.getX() / 120;
         Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
         muistipeli.kaannaKortti(kortti);
-        newrect.repaint();
-        if(muistipeli.onkoKaksiKorttiaKaannetty()){
-            muistipeli.kaannaKaikkiKortit();
-            newrect.repaint();
-        }
+//        yritystenMaara.setText("yritykset:" + pelaaja.getYritystenMaara());
+        pelilauta.repaint();
     }
 
     @Override
