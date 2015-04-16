@@ -99,17 +99,17 @@ public class PeliTest {
         int vastaus = peli.getPelinLeveys();
         assertEquals(2, vastaus);
     }
-//    @Test
-//    public void getKorttiToimii(){
-//        Peli peli = new Peli();
-//        Kortti kortti1 = new Kortti(1, Color.red);
-//        Kortti kortti2 = new Kortti(2, Color.red);
-//        peli.lisaaKortti(kortti1);
-//        peli.lisaaKortti(kortti2);
-//        peli.arvoKortit();
-//        Kortti vastaus = peli.getKortti(1, 1);
-//        assertEquals(kortti1, vastaus);
-//    }
+    @Test
+    public void getKorttiToimii(){//onko taulukossa kortti eikä joku muu, ei oo yksittäisiä korttei vaa pareja
+        Peli peli = new Peli();
+        Kortti kortti1 = new Kortti(1, Color.red);
+        Kortti kortti2 = new Kortti(2, Color.red);
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        peli.arvoKortit();
+        Kortti vastaus = peli.getKortti(1, 1);
+        assertEquals(kortti1, vastaus);
+    }
     @Test
     public void poistaKorttiPelistaToimii(){
         Peli peli = new Peli();

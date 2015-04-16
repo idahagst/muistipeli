@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -88,7 +89,8 @@ public class Peli {
      */
     public void arvoKortit() {
         int parienMaara = leveys * korkeus / 2;
-        kortitPelissa = new ArrayList<Integer>();
+        kortitPelissa = new ArrayList<Integer>(); //lista ei oo null, listan koko oikee
+        //korttien sisältö
         int i = 0;
         while (i < parienMaara) {
             kortitPelissa.add(i);
@@ -99,11 +101,10 @@ public class Peli {
         int a = 0;
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                a++;
                 Kortti kortti = new Kortti(kortitPelissa.get(0), varit.get(a/2));
                 kortit[y][x] = kortti;
                 kortitPelissa.remove(0);
-                
+                a++;
             }
         }
     }
@@ -119,7 +120,9 @@ public class Peli {
     public Kortti[][] getKortit() {
         return kortit;
     }
-    
+    public Pelaaja getPelaaja(){
+        return this.pelaaja;
+    }
     public Kortti getKortti(int y, int x){
         return kortit[y][x];
     }
@@ -138,42 +141,58 @@ public class Peli {
             toinenKorttiKaannetty = true;
             tokaKortti = kortti;
             tokaKortti.kaannaKortti();
-//            olikoKortitSamat(ekaKortti, tokaKortti);
         }
-        olikoKortitSamat(ekaKortti, tokaKortti);
     }
     /**
      * metodi testaa onko kaksi korttia samat
      * @param kortti1 ensimmäinen vertailtava kortti
      * @param kortti2 toinen vertailtava kortti
      */
-    public void olikoKortitSamat(Kortti kortti1, Kortti kortti2){
-        ekaKortti = kortti1;
-        tokaKortti = kortti2;
-        if (ekaKortti.kortinNumero()==tokaKortti.kortinNumero()) {
+    public void olikoKortitSamat(){
+        if (ekaKortti.getVari().equals(tokaKortti.getVari())) {
                 pelaaja.lisaaPari();
                 pelaaja.lisaaYritys();
                 poistaKorttiPelista(ekaKortti);
                 poistaKorttiPelista(tokaKortti);
                 ensimmainenKorttiKaannetty = false;
                 toinenKorttiKaannetty = false;
-                ekaKortti.palautaKaannetty();
-                tokaKortti.palautaKaannetty();
+                ekaKortti = null;
+                tokaKortti = null;
+//                ekaKortti.palautaKaannetty();
+//                tokaKortti.palautaKaannetty();
+                onkoKaikkiKortitKaannetty();
         }
         else{
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+
+            }
             pelaaja.lisaaYritys();
             ensimmainenKorttiKaannetty = false;
             toinenKorttiKaannetty = false;
-//            ekaKortti.palautaKaannetty();
-//            tokaKortti.palautaKaannetty();
+            ekaKortti.palautaKaannetty();
+            tokaKortti.palautaKaannetty();
+            ekaKortti = null;
+            tokaKortti = null;
         }
+    }
+    public boolean onkoKaikkiKortitKaannetty(){
+        for(int y = 0; y < korkeus; y++) {
+            for (int x = 0; x < leveys; x++) {
+                if(kortit[y][x].onkoKaannetty()== false){
+                    return false;
+                } 
+            }
+        }
+        return true;
     }
     /**
      * metodi poistaa halutun kortin pelistä 
      * @param kortti kortti, joka halutana poistaa 
      */
     public void poistaKorttiPelista(Kortti kortti) {
-        kortti.setVari(new Color(0f, 0f, 0f, 0f));
+        kortti.setVari(new Color(0,0,0,0));
     }
     /**
      * metodi kääntää kaikki kortit pelissä kääntämättömiksi
@@ -189,29 +208,10 @@ public class Peli {
      * metodi palauttaa onko kaksi korttia pöydällä käännettynä
      * @return true tai false
      */
-    public void onkoKaksiKorttiaKaannetty(){
-        if(ekaKortti.onkoKaannetty() && tokaKortti.onkoKaannetty()){
-            olikoKortitSamat(ekaKortti, tokaKortti);
-            kaannaKaikkiKortit();
+    public boolean onkoKaksiKorttiaKaannetty(){
+        if(ekaKortti == null || tokaKortti == null){
+            return false;
         }
+        return ekaKortti.onkoKaannetty() && tokaKortti.onkoKaannetty();
     }
-    /**
-     * metodi palauttaa onko kaksi käännettyä korttia samat
-     * @return true tai false
-     */
-    public boolean onkoKortitSamat() {
-        return ekaKortti.getVari() == tokaKortti.getVari();
-    }
-    /**
-     * metodi lopettaa pelin, poistaa kaikki kortit pelistä ja tulostaa 
-     * pelaajalle pelin tulokset
-     */
-    public void lopetaPeli() {
-        kortitPelissa.removeAll(kortitPelissa);
-        System.out.println("Peli pÃ¤Ã¤ttyi");
-        System.out.print("KÃ¤ytit " + pelaaja.getYritystenMaara() + "yritystÃ¤.");
-        System.out.println("LÃ¶ysit" + pelaaja.getLoydetytParit() + "paria.");
-
-    }
-
 }
