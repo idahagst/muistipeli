@@ -10,3 +10,4 @@
 6.4.2015  0,5h Yritin jatkaa koodia, mutten oikeen mitään osannut tehdä
 9.4.2015  4h Pajassa sain paljon apua ja kotona jatkoin ohjelmointia
 10.4.2015 1h Javadocin kirjoittamista ja muut palautetukseen tarvittavat jutut
+15.4.2015 3h Sain toimimaan tasonvalitsemisnapit, jollon voi valita eri kokosia pelejä, lopeta nappi ei toimi, ja kortin kääntäminen ei toimi sen jälkeen kun kaksi korttia on käännetty
