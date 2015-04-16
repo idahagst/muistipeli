@@ -116,8 +116,10 @@ public class Peli {
     public int getPelinLeveys() {
         return this.leveys;
     }
-
-    public Kortti[][] getKortit() {
+    public ArrayList<Integer> getKorttiLista() {
+        return kortitPelissa;
+    }
+    public Kortti[][] getKorttiTaulukko() {
         return kortit;
     }
     public Pelaaja getPelaaja(){
@@ -142,6 +144,19 @@ public class Peli {
             tokaKortti = kortti;
             tokaKortti.kaannaKortti();
         }
+    }
+    
+    public Kortti getEkaKortti(){
+        return this.ekaKortti;
+    }
+    public Kortti getTokaKortti(){
+        return this.tokaKortti;
+    }
+    public boolean onkoEkaKorttiKaannetty(){
+        return this.ensimmainenKorttiKaannetty;
+    }
+    public boolean onkoTokaKorttiKaannetty(){
+        return this.toinenKorttiKaannetty;
     }
     /**
      * metodi testaa onko kaksi korttia samat

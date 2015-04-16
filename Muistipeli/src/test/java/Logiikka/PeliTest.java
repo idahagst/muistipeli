@@ -19,7 +19,11 @@ import static org.junit.Assert.*;
  * @author Ida
  */
 public class PeliTest {
-
+    
+    Peli peli;
+    Kortti kortti1;
+    Kortti kortti2;
+    
     public PeliTest() {
     }
 
@@ -33,6 +37,9 @@ public class PeliTest {
 
     @Before
     public void setUp() {
+        peli = new Peli();
+        kortti1 = new Kortti(1, Color.blue);
+        kortti2 = new Kortti(2, Color.red);
     }
 
     @After
@@ -41,9 +48,6 @@ public class PeliTest {
 
     @Test
     public void lisaaKorttiToimii() {
-        Peli peli = new Peli();
-        Kortti kortti1 = new Kortti(1, Color.red);
-        Kortti kortti2 = new Kortti(2, Color.red);
         peli.lisaaKortti(kortti1);
         peli.lisaaKortti(kortti2);
         int vastaus = peli.getKorttiparienLukumaara();
@@ -52,9 +56,6 @@ public class PeliTest {
 
     @Test
     public void poistaKortitToimii() {
-        Peli peli = new Peli();
-        Kortti kortti1 = new Kortti(1, Color.red);
-        Kortti kortti2 = new Kortti(2, Color.red);
         peli.lisaaKortti(kortti1);
         peli.lisaaKortti(kortti2);
         peli.poistaKortit();
@@ -77,9 +78,6 @@ public class PeliTest {
 //    }
     @Test
     public void getKorttiParienLukumaaraAntaaOikeanLukumaaran() {
-        Peli peli = new Peli();
-        Kortti kortti1 = new Kortti(1, Color.red);
-        Kortti kortti2 = new Kortti(2, Color.red);
         peli.lisaaKortti(kortti1);
         peli.lisaaKortti(kortti2);
         int vastaus = peli.getKorttiparienLukumaara();
@@ -87,35 +85,130 @@ public class PeliTest {
     }
     @Test 
     public void pelinKorkeusToimii(){
-        Peli peli = new Peli();
         peli.aloitaPeli(2,2);
         int vastaus = peli.getPelinKorkeus();
         assertEquals(2, vastaus);
     }
      @Test 
     public void peliLeveysToimii(){
-        Peli peli = new Peli();
         peli.aloitaPeli(2,2);
         int vastaus = peli.getPelinLeveys();
         assertEquals(2, vastaus);
     }
     @Test
-    public void getKorttiToimii(){//onko taulukossa kortti eikä joku muu, ei oo yksittäisiä korttei vaa pareja
-        Peli peli = new Peli();
-        Kortti kortti1 = new Kortti(1, Color.red);
-        Kortti kortti2 = new Kortti(2, Color.red);
+    public void poistaKorttiPelistaToimii(){
+        peli.poistaKorttiPelista(kortti1);
+        Color vastaus = kortti1.getVari();
+        assertEquals(new Color(0,0,0,0), vastaus);
+    }
+    
+    @Test
+    public void arvoKortitLuoListan(){
+        peli.arvoKortit();
+        ArrayList<Integer> vastaus = peli.getKorttiLista();
+        assertEquals(peli.getKorttiLista(), vastaus);
+    }
+    
+    @Test
+    public void arvoKortitListanKokoOikea(){
+        peli.arvoKortit();
+        int vastaus = peli.getKorttiLista().size();
+        assertEquals(0, vastaus);
+    }
+    @Test
+    public void kaannaKorttiToimiiEkallaKortilla(){
+        peli.lisaaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        boolean vastaus = kortti1.onkoKaannetty();
+        assertEquals(true, vastaus);
+    }
+    @Test 
+    public void onkoKaksiKorttiKaannettyToimii(){
         peli.lisaaKortti(kortti1);
         peli.lisaaKortti(kortti2);
-        peli.arvoKortit();
-        Kortti vastaus = peli.getKortti(1, 1);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti2);
+        boolean vastaus = peli.onkoKaksiKorttiaKaannetty();
+        assertEquals(true, vastaus);
+    }
+    @Test
+    public void olikoKortitSamatLisaaPelaajalleYrityksenJosKortitSamat(){
+        peli.lisaaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.olikoKortitSamat();
+        int vastaus = peli.getPelaaja().getYritystenMaara();
+        assertEquals(1, vastaus);
+    }
+    @Test
+    public void olikoKortitSamatLisaaPelaajalleYrityksenJosKortitErit(){
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti2);
+        peli.olikoKortitSamat();
+        int vastaus = peli.getPelaaja().getYritystenMaara();
+        assertEquals(1, vastaus);
+    }
+    @Test
+    public void olikoKortitSamatEiLisaaPariaJosKortitErit(){
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti2);
+        peli.olikoKortitSamat();
+        int vastaus = peli.getPelaaja().getLoydetytParit();
+        assertEquals(0, vastaus);
+    }
+    @Test
+    public void olikoKortitSamatLisaaLoydetynParinJosKortitSamat(){
+        peli.lisaaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.olikoKortitSamat();
+        int vastaus = peli.getPelaaja().getLoydetytParit();
+        assertEquals(1, vastaus);
+    }
+    @Test
+    public void olikoKortitSamatLaittaaKortitKaannetyiksi(){
+        peli.lisaaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.olikoKortitSamat();
+        boolean vastaus = peli.onkoEkaKorttiKaannetty();
+        assertEquals(false, vastaus);
+    }
+//    @Test
+//    public void olikoKortitSamatPoistaaLoydetytPelista(){
+//        peli.lisaaKortti(kortti1);
+//        peli.kaannaKortti(kortti1);
+//        peli.kaannaKortti(kortti1);
+//        Color vastaus = peli.getEkaKortti().getVari();
+//        assertEquals(new Color(0,0,255,225), vastaus);
+//        
+//    }
+    @Test
+    public void arvoKortitLuoOikeanMaaranPareja(){
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        
+    }
+    @Test
+    public void getEkaKorttiPalauttaaEkanKortin(){
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti2);
+        Kortti vastaus = peli.getEkaKortti();
         assertEquals(kortti1, vastaus);
     }
     @Test
-    public void poistaKorttiPelistaToimii(){
-        Peli peli = new Peli();
-        Kortti kortti = new Kortti(1, Color.red);
-        peli.poistaKorttiPelista(kortti);
-        Color vastaus = kortti.getVari();
-        assertEquals(Color.gray, vastaus);
+    public void getTokaKorttiPalauttaaEkanKortin(){
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti2);
+        Kortti vastaus = peli.getTokaKortti();
+        assertEquals(kortti2, vastaus);
     }
 }
