@@ -203,7 +203,7 @@ public class PeliTest {
         assertEquals(kortti1, vastaus);
     }
     @Test
-    public void getTokaKorttiPalauttaaEkanKortin(){
+    public void getTokaKorttiPalauttaaTokanKortin(){
         peli.lisaaKortti(kortti1);
         peli.lisaaKortti(kortti2);
         peli.kaannaKortti(kortti1);

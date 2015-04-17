@@ -89,8 +89,7 @@ public class Peli {
      */
     public void arvoKortit() {
         int parienMaara = leveys * korkeus / 2;
-        kortitPelissa = new ArrayList<Integer>(); //lista ei oo null, listan koko oikee
-        //korttien sisältö
+        kortitPelissa = new ArrayList<Integer>();
         int i = 0;
         while (i < parienMaara) {
             kortitPelissa.add(i);
@@ -152,14 +151,26 @@ public class Peli {
     public Kortti getTokaKortti(){
         return this.tokaKortti;
     }
+    /**
+     * metodi kertoo onko ensimmäinen kortti käännetty
+     * @return true tai false riippuen onko kortti käännetty
+     */
     public boolean onkoEkaKorttiKaannetty(){
         return this.ensimmainenKorttiKaannetty;
     }
+    /**
+     * metodi kertoo onko toinen kortti käännetty
+     * @return true tai false riippuen onko kortti käännetty
+     */
     public boolean onkoTokaKorttiKaannetty(){
         return this.toinenKorttiKaannetty;
     }
     /**
      * metodi testaa onko kaksi korttia samat
+     * jos kaksi korttia on samat, metodi poistaa ne pelistä, lisaa pelaajalle
+     * parin ja yrityksen ja asettaa ensimmäisen ja toisen kortin kääntämättömäksi
+     * jos kaksi korttia ei ole samat, metodi lisää pelaajalle yrityksen ja kääntää kortit 
+     * takaisin väärinpäin
      * @param kortti1 ensimmäinen vertailtava kortti
      * @param kortti2 toinen vertailtava kortti
      */
@@ -192,6 +203,11 @@ public class Peli {
             tokaKortti = null;
         }
     }
+    /**
+     * metodi kertoo onko kaikki pöydällä olevat kortit jo käännetty eli onko kaikki 
+     * korttiparit löydetty
+     * @return true tai false riippuen onko pöydällä löytämättömiä pareja
+     */
     public boolean onkoKaikkiKortitKaannetty(){
         for(int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {

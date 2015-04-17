@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 /**
- *
+ * Luokka luo pelin näytölle ja hoitaa pelin graafiset toiminnot
  * @author Ida
  */
 public class Kayttoliittyma extends JPanel implements ActionListener, MouseListener {
@@ -45,6 +45,12 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private JLabel loydetytParit;
     private RectDraw pelilauta;
 
+    /**
+     * konstruktori yhdistää logiikassa käytettävän pelin käyttöliittymään eli luo peliksi 
+     * oikean pelin, se luo uuden pelilaudan, jolle voidaan piirtää ja se luo pelaajan,
+     * joka pelaa peliä, konstruktori kutsuu metodia Ikkuna();
+     * @param peli 
+     */
     public Kayttoliittyma(Peli peli) {
         
         this.muistipeli = peli;
@@ -53,6 +59,10 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         pelaaja = muistipeli.getPelaaja();
     }
 
+    /**
+     * metodi luo peli-ikkunan ja lisää sille hiirenkuuntelijan
+     * metodi myös kutsuu luoNapit() metodia
+     */
     public void Ikkuna() {
         peliIkkuna = new JFrame("Muistipeli");
         peliIkkuna.setPreferredSize(new Dimension(800, 600));
@@ -64,6 +74,11 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         peliIkkuna.setVisible(true);
     }
 
+    /**
+     * metodi luo peli-ikkunaan napit, joista voi valita pelin tason
+     * metodi luo myös osiot, joissa näkyy pelaajan yritysten ja löydettyjen
+     * parien määrä
+     */
     private void luoNapit() {
         JPanel nappipaneeli = new JPanel(new GridLayout(1, 5));
         aloitahelppo = new JButton("Helppo");
@@ -85,19 +100,33 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         peliIkkuna.add(nappipaneeli, BorderLayout.NORTH);
     }
 
+    /**
+     * metodi lopettaa pelin ja tulostaa pelaajalle näkyville kuinka monta yritystä hän
+     * käytti ja kuinka monta paria hän löysi
+     */
     public void lopetaPeli() {
-        JFrame lopetusikkuna = new JFrame("Peli päättyi");
-        lopetusikkuna.setPreferredSize(new Dimension(800, 600));
-        lopetusikkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        lopetusikkuna.pack();
+//        JFrame lopetusikkuna = new JFrame("Peli päättyi");
+//        lopetusikkuna.setPreferredSize(new Dimension(800, 600));
+//        lopetusikkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        lopetusikkuna.pack();
         JPanel lopetuspaneeli = new JPanel(new GridLayout(2,1));
         JLabel lopetusteksti = new JLabel("Peli päättyi!");
         JLabel toinenteksti = new JLabel("Käytit " + pelaaja.getYritystenMaara() + " yritystä ja löysit " + pelaaja.getLoydetytParit() + " paria.");
         lopetuspaneeli.add(lopetusteksti);
         lopetuspaneeli.add(toinenteksti);
         peliIkkuna.add(lopetuspaneeli, BorderLayout.EAST);
-    }
+        muistipeli.getPelaaja().nollaaLoydetyt();
+        muistipeli.getPelaaja().nollaaYritykset();
+        muistipeli.kaannaKaikkiKortit();
+        pelilauta.repaint();
+        }
+    
+    
 
+    /**
+     * luokka piirtää pelilaudalle muistipelin kortit riippuen siitä, minkä
+     * tason pelaaja valitsee
+     */
     class RectDraw extends JPanel {
 
         private Peli muistipeli;
@@ -151,7 +180,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
 
                     }
                 }
-            }
+            } 
         }
     }
 
@@ -169,9 +198,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
             pelilauta.repaint();
         } else if (e.getSource() == lopeta) {
             lopetaPeli();
-//            pelilauta.repaint();
+            pelilauta.repaint();
         }
-//        yritystenMaara.setText("yritykset:" + pelaaja.getYritystenMaara());
     }
 
     @Override
@@ -208,8 +236,5 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     @Override
     public void mouseExited(MouseEvent e) {
     }
-
-    public JFrame getFrame() {
-        return peliIkkuna;
-    }
+    
 }
