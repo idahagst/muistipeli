@@ -1,12 +1,12 @@
 Aihe: 
-Aiheena muistipeli, jossa pelaaja pelaa aikaa vastaan tarkoituksenaan lˆyt‰‰
-mahdollisimman monta paria m‰‰ritellyss‰ ajassa. Pelaaja voi valita erikokoisen muistipelin ja eri ajan,
-jota vastaan h‰n pelaa.
+Aiheena muistipeli, jossa pelaaja pelaa muistipeli√§ valitsemalla kolmesta tasovaihtoehdosta itselleen sopivimman. Pelaajan tarkoituksena on l√∂yt√§√§ parit mahdollisimman v√§hill√§ yrityksill√§.
 
-K‰ytt‰j‰: 
-Kuka vain muistipeleist‰ kiinnostunut
+K√§ytt√§j√§: 
+Kuka vain muistipeleist√§ kiinnostunut
 
-K‰ytt‰j‰n toiminnot:
--Muistipelin koon valitseminen
--Maksimiajan valitseminen
+K√§ytt√§j√§n toiminnot:
+-Muistipelin tason valitseminen kolmesta vaihtoehdosta
 -Pelaaminen
+  -korttien valitseminen painamalla
+-Lopettaminen
+  -Lopeta-napin painaminen, jos pelaaja ei halua pelata peli√§ loppuun
