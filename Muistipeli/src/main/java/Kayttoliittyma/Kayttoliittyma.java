@@ -10,18 +10,13 @@ import Logiikka.Pelaaja;
 import Logiikka.Peli;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +25,7 @@ import javax.swing.WindowConstants;
 
 /**
  * Luokka luo pelin näytölle ja hoitaa pelin graafiset toiminnot
+ *
  * @author Ida
  */
 public class Kayttoliittyma extends JPanel implements ActionListener, MouseListener {
@@ -44,15 +40,19 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private JLabel yritystenMaara;
     private JLabel loydetytParit;
     private RectDraw pelilauta;
+    private int x;
+    private int y;
 
     /**
-     * konstruktori yhdistää logiikassa käytettävän pelin käyttöliittymään eli luo peliksi 
-     * oikean pelin, se luo uuden pelilaudan, jolle voidaan piirtää ja se luo pelaajan,
-     * joka pelaa peliä, konstruktori kutsuu metodia Ikkuna();
-     * @param peli 
+     * konstruktori yhdistää logiikassa käytettävän pelin käyttöliittymään eli
+     * luo peliksi oikean pelin, se luo uuden pelilaudan, jolle voidaan piirtää
+     * ja se luo pelaajan, joka pelaa peliä, konstruktori kutsuu metodia
+     * Ikkuna();
+     *
+     * @param peli
      */
     public Kayttoliittyma(Peli peli) {
-        
+
         this.muistipeli = peli;
         pelilauta = new RectDraw(peli);
         Ikkuna();
@@ -60,8 +60,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     }
 
     /**
-     * metodi luo peli-ikkunan ja lisää sille hiirenkuuntelijan
-     * metodi myös kutsuu luoNapit() metodia
+     * metodi luo peli-ikkunan ja lisää sille hiirenkuuntelijan metodi myös
+     * kutsuu luoNapit() metodia
      */
     public void Ikkuna() {
         peliIkkuna = new JFrame("Muistipeli");
@@ -75,9 +75,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     }
 
     /**
-     * metodi luo peli-ikkunaan napit, joista voi valita pelin tason
-     * metodi luo myös osiot, joissa näkyy pelaajan yritysten ja löydettyjen
-     * parien määrä
+     * metodi luo peli-ikkunaan napit, joista voi valita pelin tason metodi luo
+     * myös osiot, joissa näkyy pelaajan yritysten ja löydettyjen parien määrä
      */
     private void luoNapit() {
         JPanel nappipaneeli = new JPanel(new GridLayout(1, 5));
@@ -101,27 +100,21 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     }
 
     /**
-     * metodi lopettaa pelin ja tulostaa pelaajalle näkyville kuinka monta yritystä hän
-     * käytti ja kuinka monta paria hän löysi
+     * metodi lopettaa pelin ja tulostaa pelaajalle näkyville kuinka monta
+     * yritystä hän käytti ja kuinka monta paria hän löysi
      */
     public void lopetaPeli() {
-//        JFrame lopetusikkuna = new JFrame("Peli päättyi");
-//        lopetusikkuna.setPreferredSize(new Dimension(800, 600));
-//        lopetusikkuna.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        lopetusikkuna.pack();
-        JPanel lopetuspaneeli = new JPanel(new GridLayout(2,1));
+        JPanel lopetuspaneeli = new JPanel(new GridLayout(2, 1));
         JLabel lopetusteksti = new JLabel("Peli päättyi!");
         JLabel toinenteksti = new JLabel("Käytit " + pelaaja.getYritystenMaara() + " yritystä ja löysit " + pelaaja.getLoydetytParit() + " paria.");
         lopetuspaneeli.add(lopetusteksti);
         lopetuspaneeli.add(toinenteksti);
-        peliIkkuna.add(lopetuspaneeli, BorderLayout.EAST);
+        peliIkkuna.add(lopetuspaneeli, BorderLayout.SOUTH);
         muistipeli.getPelaaja().nollaaLoydetyt();
         muistipeli.getPelaaja().nollaaYritykset();
-        muistipeli.kaannaKaikkiKortit();
+        muistipeli.poistaKortit();
         pelilauta.repaint();
-        }
-    
-    
+    }
 
     /**
      * luokka piirtää pelilaudalle muistipelin kortit riippuen siitä, minkä
@@ -180,7 +173,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
 
                     }
                 }
-            } 
+            }
         }
     }
 
@@ -188,13 +181,19 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == aloitahelppo) {
             muistipeli.aloitaPeli(2, 3);
+            pelaaja.nollaaLoydetyt();
+            pelaaja.nollaaYritykset();
             peliIkkuna.repaint();
             pelilauta.repaint();
         } else if (e.getSource() == aloitakeskivaikea) {
             muistipeli.aloitaPeli(3, 4);
+            pelaaja.nollaaLoydetyt();
+            pelaaja.nollaaYritykset();
             pelilauta.repaint();
         } else if (e.getSource() == aloitavaikea) {
             muistipeli.aloitaPeli(4, 4);
+            pelaaja.nollaaLoydetyt();
+            pelaaja.nollaaYritykset();
             pelilauta.repaint();
         } else if (e.getSource() == lopeta) {
             lopetaPeli();
@@ -203,15 +202,54 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e)  {
         int ykoordinaatti = e.getY() / 120;
         int xkoordinaatti = e.getX() / 120;
-        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-        muistipeli.kaannaKortti(kortti);
-        pelilauta.repaint();
+        int y = e.getY();
+        int x = e.getX();
+        Color lapinakyva = new Color(0, 0, 0, 0);
+                if (muistipeli.getPelinKorkeus() == 2) {
+                    if (y < 120 && y > 20 || y < 240 && y > 140) {
+                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 160) {
+                            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+                            if(kortti.getVari().equals(lapinakyva)){
+                                
+                            } else {
+                            muistipeli.kaannaKortti(kortti);
+                            }
+                        }
+                    }
+                }else if (muistipeli.getPelinKorkeus() == 3) {
+                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 160) {
+                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 160  || x <480 && x >380) {
+                            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+                            if(kortti.getVari().equals(lapinakyva)){
+                                
+                            } else {
+                            muistipeli.kaannaKortti(kortti);
+                            }
+                        }
+                    }
+                }else if (muistipeli.getPelinKorkeus() == 4) {
+                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 160 || y <480 && y >380) {
+                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 160 || x <480 && x >380) {
+                            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+                            if(kortti.getVari().equals(lapinakyva)){
+                                
+                            } else {
+                            muistipeli.kaannaKortti(kortti);
+                            }
+                        }
+                    }
+                }
+        
+//            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+//            muistipeli.kaannaKortti(kortti);
+            pelilauta.repaint();
+        
         if (muistipeli.onkoKaksiKorttiaKaannetty()) {
             muistipeli.olikoKortitSamat();
-            if(muistipeli.onkoKaikkiKortitKaannetty()){
+            if (muistipeli.onkoKaikkiKortitKaannetty()) {
                 lopetaPeli();
             }
             pelilauta.repaint();
@@ -236,5 +274,5 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     @Override
     public void mouseExited(MouseEvent e) {
     }
-    
+
 }

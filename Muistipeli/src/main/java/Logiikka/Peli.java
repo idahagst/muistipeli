@@ -6,6 +6,7 @@
 package Logiikka;
 
 import java.awt.Color;
+import java.awt.Transparency;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -223,7 +224,8 @@ public class Peli {
      * @param kortti kortti, joka halutana poistaa 
      */
     public void poistaKorttiPelista(Kortti kortti) {
-        kortti.setVari(new Color(0,0,0,0));
+        Color lapinakyva = new Color(0, 0, 0, 0);
+        kortti.setVari(lapinakyva);
     }
     /**
      * metodi kääntää kaikki kortit pelissä kääntämättömiksi
