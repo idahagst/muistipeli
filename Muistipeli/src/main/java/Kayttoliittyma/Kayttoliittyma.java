@@ -210,7 +210,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         Color lapinakyva = new Color(0, 0, 0, 0);
                 if (muistipeli.getPelinKorkeus() == 2) {
                     if (y < 120 && y > 20 || y < 240 && y > 140) {
-                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 160) {
+                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260) {
                             Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
                             if(kortti.getVari().equals(lapinakyva)){
                                 
@@ -220,8 +220,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
                         }
                     }
                 }else if (muistipeli.getPelinKorkeus() == 3) {
-                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 160) {
-                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 160  || x <480 && x >380) {
+                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260) {
+                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260  || x <480 && x >380) {
                             Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
                             if(kortti.getVari().equals(lapinakyva)){
                                 
@@ -231,8 +231,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
                         }
                     }
                 }else if (muistipeli.getPelinKorkeus() == 4) {
-                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 160 || y <480 && y >380) {
-                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 160 || x <480 && x >380) {
+                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260 || y <480 && y >380) {
+                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260 || x <480 && x >380) {
                             Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
                             if(kortti.getVari().equals(lapinakyva)){
                                 
@@ -242,9 +242,6 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
                         }
                     }
                 }
-        
-//            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-//            muistipeli.kaannaKortti(kortti);
             pelilauta.repaint();
         
         if (muistipeli.onkoKaksiKorttiaKaannetty()) {
