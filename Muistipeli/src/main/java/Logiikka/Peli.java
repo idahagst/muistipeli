@@ -43,10 +43,9 @@ public class Peli {
         varit.add(Color.GREEN);
         varit.add(Color.YELLOW);
         varit.add(Color.ORANGE);
-        varit.add(Color.WHITE);
         varit.add(Color.PINK);
-        varit.add(Color.CYAN);
         varit.add(Color.MAGENTA);
+        varit.add(Color.CYAN);
         
     }
     /**
@@ -61,7 +60,10 @@ public class Peli {
      * metodi poistaa kaikki kortit listalta, jolloin peliin ei voida valita yhtään korttia
      */
     public void poistaKortit() {
-        korttilista.removeAll(korttilista);
+          this.leveys = 0;
+          this.korkeus = 0;
+          arvoKortit();
+        
     }
     /**
      * metodi palauttaa korttiparien lukumäärän
@@ -97,13 +99,13 @@ public class Peli {
             kortitPelissa.add(i);
             i++;
         }
+        Collections.shuffle(varit);
         Collections.shuffle(kortitPelissa);
         int a = 0;
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                Kortti kortti = new Kortti(kortitPelissa.get(0), varit.get(a/2));
+                Kortti kortti = new Kortti(kortitPelissa.get(a), varit.get(a/2));
                 kortit[y][x] = kortti;
-                kortitPelissa.remove(0);
                 a++;
             }
         }
@@ -190,11 +192,11 @@ public class Peli {
                 onkoKaikkiKortitKaannetty();
         }
         else{
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ex) {
+//
+//            }
             pelaaja.lisaaYritys();
             ensimmainenKorttiKaannetty = false;
             toinenKorttiKaannetty = false;

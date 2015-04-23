@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 /**
@@ -42,6 +43,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private RectDraw pelilauta;
     private int x;
     private int y;
+    private Timer timer;
 
     /**
      * konstruktori yhdistää logiikassa käytettävän pelin käyttöliittymään eli
@@ -57,6 +59,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         pelilauta = new RectDraw(peli);
         Ikkuna();
         pelaaja = muistipeli.getPelaaja();
+        timer = new Timer(1000, new MyTimerActionListener());
     }
 
     /**
@@ -114,6 +117,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         muistipeli.getPelaaja().nollaaYritykset();
         muistipeli.poistaKortit();
         pelilauta.repaint();
+        yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
+        loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
     }
 
     /**
@@ -201,6 +206,23 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         }
     }
 
+    class MyTimerActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (muistipeli.onkoKaksiKorttiaKaannetty()) {
+            muistipeli.olikoKortitSamat();
+            if (muistipeli.onkoKaikkiKortitKaannetty()) {
+                lopetaPeli();
+            }
+            pelilauta.repaint();
+        }
+        yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
+        loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
+        timer.stop();
+        }
+        
+    }
     @Override
     public void mouseClicked(MouseEvent e)  {
         int ykoordinaatti = e.getY() / 120;
@@ -243,16 +265,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
                     }
                 }
             pelilauta.repaint();
-        
-        if (muistipeli.onkoKaksiKorttiaKaannetty()) {
-            muistipeli.olikoKortitSamat();
-            if (muistipeli.onkoKaikkiKortitKaannetty()) {
-                lopetaPeli();
-            }
-            pelilauta.repaint();
-        }
-        yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
-        loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
+            timer.start();
     }
 
     @Override
