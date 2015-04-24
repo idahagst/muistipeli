@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +31,7 @@ import javax.swing.WindowConstants;
  * @author Ida
  */
 public class Kayttoliittyma extends JPanel implements ActionListener, MouseListener {
-
+    
     private Peli muistipeli;
     private Pelaaja pelaaja;
     private JFrame peliIkkuna;
@@ -44,6 +45,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private int x;
     private int y;
     private Timer timer;
+//    private long aloitusaika;
+//    private long lopetusaika;
 
     /**
      * konstruktori yhdistää logiikassa käytettävän pelin käyttöliittymään eli
@@ -59,7 +62,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         pelilauta = new RectDraw(peli);
         Ikkuna();
         pelaaja = muistipeli.getPelaaja();
-        timer = new Timer(1000, new MyTimerActionListener());
+        this.timer = new Timer(1000, new MyTimerActionListener());
+        
     }
 
     /**
@@ -107,18 +111,22 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
      * yritystä hän käytti ja kuinka monta paria hän löysi
      */
     public void lopetaPeli() {
+//        this.lopetusaika = System.currentTimeMillis();
+//        double kaytettyaika = (lopetusaika - aloitusaika)/ 1000;
         JPanel lopetuspaneeli = new JPanel(new GridLayout(2, 1));
         JLabel lopetusteksti = new JLabel("Peli päättyi!");
         JLabel toinenteksti = new JLabel("Käytit " + pelaaja.getYritystenMaara() + " yritystä ja löysit " + pelaaja.getLoydetytParit() + " paria.");
+//        JLabel kolmasteksti = new JLabel("Käytit aikaa " + kaytettyaika + "sekuntia");
         lopetuspaneeli.add(lopetusteksti);
         lopetuspaneeli.add(toinenteksti);
+//        lopetuspaneeli.add(kolmasteksti);
         peliIkkuna.add(lopetuspaneeli, BorderLayout.SOUTH);
         muistipeli.getPelaaja().nollaaLoydetyt();
         muistipeli.getPelaaja().nollaaYritykset();
         muistipeli.poistaKortit();
-        pelilauta.repaint();
         yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
         loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
+        pelilauta.repaint();
     }
 
     /**
@@ -188,7 +196,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
             muistipeli.aloitaPeli(2, 3);
             pelaaja.nollaaLoydetyt();
             pelaaja.nollaaYritykset();
-            peliIkkuna.repaint();
+//            long aloitusaika = System.currentTimeMillis();
             pelilauta.repaint();
         } else if (e.getSource() == aloitakeskivaikea) {
             muistipeli.aloitaPeli(3, 4);
@@ -216,10 +224,11 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
                 lopetaPeli();
             }
             pelilauta.repaint();
+            timer.stop();
         }
         yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
         loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
-        timer.stop();
+        
         }
         
     }

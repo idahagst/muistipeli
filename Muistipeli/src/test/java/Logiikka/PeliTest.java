@@ -59,23 +59,17 @@ public class PeliTest {
         peli.lisaaKortti(kortti1);
         peli.lisaaKortti(kortti2);
         peli.poistaKortit();
-        int vastaus = peli.getKorttiparienLukumaara();
+        int vastaus = peli.getPelinKorkeus();
         assertEquals(0, vastaus);
     }
-
-//    @Test
-//    public void getKortitAntaaKortit() {
-//        Peli peli = new Peli();
-//        ArrayList<Kortti> kortti = new ArrayList<Kortti>();
-//        Kortti kortti1 = new Kortti(1, Color.red);
-//        Kortti kortti2 = new Kortti(2, Color.red);
-//        peli.lisaaKortti(kortti1);
-//        kortti.add(kortti1);
-//        peli.lisaaKortti(kortti2);
-//        kortti.add(kortti2);
-//        Kortti[][] vastaus = peli.getKortit();
-//        assertEquals("kortti1, kortti2", vastaus);
-//    }
+    
+    @Test
+    public void getKorttiTaulukkoAntaaOikeanKokoisen(){
+        peli.aloitaPeli(2, 3);
+        peli.arvoKortit();
+        int vastaus = peli.getPelinKorkeus();
+        assertEquals(2, vastaus);
+    }
     @Test
     public void getKorttiParienLukumaaraAntaaOikeanLukumaaran() {
         peli.lisaaKortti(kortti1);
