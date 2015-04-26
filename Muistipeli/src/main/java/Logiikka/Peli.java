@@ -92,8 +92,8 @@ public class Peli {
      */
     public void arvoKortit() {
         int parienMaara = leveys * korkeus / 2;
-        kortitPelissa = new ArrayList<Integer>();
-        int i = 0;
+        kortitPelissa = new ArrayList<>();
+        Integer i = 0;
         while (i < parienMaara) {
             kortitPelissa.add(i);
             kortitPelissa.add(i);
@@ -101,6 +101,7 @@ public class Peli {
         }
         Collections.shuffle(varit);
         Collections.shuffle(kortitPelissa);
+        
         int a = 0;
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
@@ -192,11 +193,6 @@ public class Peli {
                 onkoKaikkiKortitKaannetty();
         }
         else{
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException ex) {
-//
-//            }
             pelaaja.lisaaYritys();
             ensimmainenKorttiKaannetty = false;
             toinenKorttiKaannetty = false;

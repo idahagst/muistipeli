@@ -136,16 +136,25 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     class RectDraw extends JPanel {
 
         private Peli muistipeli;
-
+/**
+ * konstruktorille liitetään peli, josta saadaan tieto, mitä piirretään
+ * @param muistipeli 
+ */
         public RectDraw(Peli muistipeli) {
             this.muistipeli = muistipeli;
         }
-
+/**
+ * metodi kutsuu toista metodia, joka piirtää pelin kortit
+ * @param g 
+ */
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             draw(g);
         }
-
+/**
+ * metodi piirtää pelin kortit laudalle
+ * @param g 
+ */
         public void draw(Graphics g) {
             if (muistipeli.getPelinKorkeus() == 2) {
                 for (int i = 0; i < 3; i++) {
