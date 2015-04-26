@@ -31,7 +31,7 @@ public class Kortti {
      * @param numero kortin numero
      * @param vari kortin väri
      */
-    public Kortti(int numero, Color vari){
+    public Kortti(Color vari){
         this.numero= numero;
         this.onkoKaannetty = false;
         this.vari = vari;

@@ -38,8 +38,8 @@ public class PeliTest {
     @Before
     public void setUp() {
         peli = new Peli();
-        kortti1 = new Kortti(1, Color.blue);
-        kortti2 = new Kortti(2, Color.red);
+        kortti1 = new Kortti(Color.blue);
+        kortti2 = new Kortti(Color.red);
     }
 
     @After

@@ -6,13 +6,8 @@
 package Logiikka;
 
 import java.awt.Color;
-import java.awt.Transparency;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Luokka sisältää kaikki pelin pelaamiseen liittyvät toiminnot
@@ -27,16 +22,16 @@ public class Peli {
     private boolean toinenKorttiKaannetty;
     private Kortti ekaKortti;
     private Kortti tokaKortti;
-    private ArrayList<Integer> kortitPelissa; //pelissä olevat kortit, jokaista listassa kaksi
     private int korkeus;
     private int leveys;
     private ArrayList<Color> varit;
+    private ArrayList<Color> varitPelissa;
     /**
      * konstruktori luo pelin, asettaa sille pelaajan, luo listan väreistä,
      * joita kortit voivat olla ja lisää listalle värejä
      */
     public Peli() {
-        this.pelaaja = new Pelaaja("");
+        this.pelaaja = new Pelaaja("pelaaja");
         this.varit = new ArrayList<Color>();
         varit.add(Color.RED);
         varit.add(Color.BLUE);
@@ -54,7 +49,6 @@ public class Peli {
      */
     public void lisaaKortti(Kortti kortti) {
         korttilista.add(kortti);
-
     }
     /**
      * metodi poistaa kaikki kortit listalta, jolloin peliin ei voida valita yhtään korttia
@@ -63,7 +57,6 @@ public class Peli {
           this.leveys = 0;
           this.korkeus = 0;
           arvoKortit();
-        
     }
     /**
      * metodi palauttaa korttiparien lukumäärän
@@ -71,6 +64,9 @@ public class Peli {
      */
     public int getKorttiparienLukumaara() {
         return korttilista.size();
+    }
+    public ArrayList getKorttiLista(){
+        return this.korttilista;
     }
     /**
      * metodi aloittaa pelin, asettaa sille korkeuden ja leveyden, luo taulukon joka
@@ -88,24 +84,30 @@ public class Peli {
         arvoKortit();
     }
     /**
+     * metodi arpoo peliin oikean määrän värejä riippuen pelin koosta
+     */
+    public void arvoVaritPeliin(){
+        this.varitPelissa = new ArrayList<Color>();
+        int pelinKoko = leveys * korkeus / 2;
+        int i = 0;
+        while(i< pelinKoko){
+            varitPelissa.add(varit.get(i));
+            varitPelissa.add(varit.get(i));
+            i++;
+        }
+    }
+    
+    /**
      * metodi arpoo kortit taulukkoon, josta niitä voidaan myöhemmin pelata
      */
     public void arvoKortit() {
-        int parienMaara = leveys * korkeus / 2;
-        kortitPelissa = new ArrayList<>();
-        Integer i = 0;
-        while (i < parienMaara) {
-            kortitPelissa.add(i);
-            kortitPelissa.add(i);
-            i++;
-        }
-        Collections.shuffle(varit);
-        Collections.shuffle(kortitPelissa);
+        arvoVaritPeliin();
+        Collections.shuffle(varitPelissa);
         
         int a = 0;
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                Kortti kortti = new Kortti(kortitPelissa.get(a), varit.get(a/2));
+                Kortti kortti = new Kortti(varitPelissa.get(a));
                 kortit[y][x] = kortti;
                 a++;
             }
@@ -118,9 +120,6 @@ public class Peli {
 
     public int getPelinLeveys() {
         return this.leveys;
-    }
-    public ArrayList<Integer> getKorttiLista() {
-        return kortitPelissa;
     }
     public Kortti[][] getKorttiTaulukko() {
         return kortit;
@@ -224,16 +223,6 @@ public class Peli {
     public void poistaKorttiPelista(Kortti kortti) {
         Color lapinakyva = new Color(0, 0, 0, 0);
         kortti.setVari(lapinakyva);
-    }
-    /**
-     * metodi kääntää kaikki kortit pelissä kääntämättömiksi
-     */
-    public void kaannaKaikkiKortit(){
-        for(int y = 0; y < korkeus; y++) {
-            for (int x = 0; x < leveys; x++) {
-                kortit[y][x].palautaKaannetty();
-            }
-        }
     }
     /**
      * metodi palauttaa onko kaksi korttia pöydällä käännettynä
