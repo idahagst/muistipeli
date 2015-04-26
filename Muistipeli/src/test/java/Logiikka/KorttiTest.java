@@ -19,6 +19,8 @@ import static org.junit.Assert.*;
  */
 public class KorttiTest {
     
+    Kortti kortti;
+    
     public KorttiTest() {
     }
     
@@ -32,7 +34,7 @@ public class KorttiTest {
     
     @Before
     public void setUp() {
-        Kortti kortti = new Kortti(1, Color.red);
+        kortti = new Kortti(Color.red);
     }
     
     @After
@@ -40,48 +42,29 @@ public class KorttiTest {
     }
     
     @Test
-    public void konstruktoriAsettaaOikeatArvot(){
-        Kortti kortti = new Kortti(1, Color.RED);
-        int vastaus = kortti.kortinNumero();
-        assertEquals(1, vastaus);
-    }
-    
-    @Test
     public void konstruktoriAsettaaOikeatArvot2(){
-        Kortti kortti = new Kortti(1, Color.RED);
         Color vastaus = kortti.getVari();
         assertEquals(Color.RED, vastaus);
     }
     @Test
     public void konstruktoriAsettaaEtteiKorttiOleKaannetty(){
-        Kortti kortti = new Kortti(1, Color.red);
         boolean vastaus = kortti.onkoKaannetty();
         assertEquals(false, vastaus);
     }
     @Test
     public void KaannaKorttiToimii(){
-        Kortti kortti = new Kortti(1, Color.RED);
         kortti.kaannaKortti();
         boolean vastaus = kortti.onkoKaannetty();
         assertEquals(true, vastaus);
     }
     @Test
-    public void kortinNumeroAntaaNumeron(){
-        Kortti kortti = new Kortti(1, Color.red);
-        int vastaus = kortti.kortinNumero();
-        assertEquals(1, vastaus);
-               
-    }
-    @Test
     public void setVariToimii(){
-        Kortti kortti = new Kortti(1, Color.red);
         kortti.setVari(Color.gray);
         Color vastaus = kortti.getVari();
         assertEquals(Color.gray, vastaus);
     }
     @Test 
     public void palautaKaannettyToimii(){
-        Kortti kortti = new Kortti(1,Color.red);
         kortti.kaannaKortti();
         kortti.palautaKaannetty();
         boolean vastaus = kortti.onkoKaannetty();

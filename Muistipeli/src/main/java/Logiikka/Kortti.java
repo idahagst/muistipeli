@@ -17,10 +17,6 @@ public class Kortti {
      */
     private boolean onkoKaannetty;
     /**
-     * numero kertoo kortin numeron ja sillä identifioidaan kortit
-     */
-    private int numero;
-    /**
      * kertoo kortin värin, eli "kuvan", jolle etsitään paria
      */
     private Color vari;
@@ -32,7 +28,6 @@ public class Kortti {
      * @param vari kortin väri
      */
     public Kortti(Color vari){
-        this.numero= numero;
         this.onkoKaannetty = false;
         this.vari = vari;
     }
@@ -42,13 +37,6 @@ public class Kortti {
      */
     public boolean onkoKaannetty(){
         return this.onkoKaannetty;
-    }
-    /**
-     * metodi palauttaa kortin numeron
-     * @return kortin numero
-     */
-    public int kortinNumero(){
-        return this.numero;
     }
     /**
      * metodi kääntää kortin eli vaihtaa kortin käännetyksi

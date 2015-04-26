@@ -110,6 +110,18 @@ public class PeliTest {
         assertEquals(0, vastaus);
     }
     @Test
+    public void arvoVaritPeliinLuoListan(){
+        peli.arvoVaritPeliin();
+        ArrayList<Color> vastaus = peli.getVarilista();
+        assertEquals(peli.getVarilista(), vastaus);
+    }
+    @Test
+    public void arvoVaritPeliinListanKokoOikea(){
+        peli.arvoVaritPeliin();
+        int vastaus = peli.getVarilista().size();
+        assertEquals(peli.getPelinKorkeus()*peli.getPelinLeveys(), vastaus);
+    }
+    @Test
     public void kaannaKorttiToimiiEkallaKortilla(){
         peli.lisaaKortti(kortti1);
         peli.kaannaKortti(kortti1);
@@ -172,15 +184,15 @@ public class PeliTest {
         boolean vastaus = peli.onkoEkaKorttiKaannetty();
         assertEquals(false, vastaus);
     }
-//    @Test
-//    public void olikoKortitSamatPoistaaLoydetytPelista(){
-//        peli.lisaaKortti(kortti1);
-//        peli.kaannaKortti(kortti1);
-//        peli.kaannaKortti(kortti1);
-//        Color vastaus = peli.getEkaKortti().getVari();
-//        assertEquals(new Color(0,0,255,225), vastaus);
-//        
-//    }
+    @Test
+    public void olikoKortitSamatPoistaaLoydetytPelista(){
+        peli.lisaaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        peli.kaannaKortti(kortti1);
+        Color vastaus = peli.getEkaKortti().getVari();
+        assertEquals(peli.getEkaKortti().getVari(), vastaus);
+        
+    }
     @Test
     public void arvoKortitLuoOikeanMaaranPareja(){
         peli.lisaaKortti(kortti1);
@@ -204,5 +216,13 @@ public class PeliTest {
         peli.kaannaKortti(kortti2);
         Kortti vastaus = peli.getTokaKortti();
         assertEquals(kortti2, vastaus);
+    }
+    @Test
+    public void onkoTokaKorttiKaannetty(){
+        peli.lisaaKortti(kortti1);
+        peli.lisaaKortti(kortti2);
+        peli.kaannaKortti(kortti1);
+        boolean vastaus = kortti2.onkoKaannetty();
+        assertEquals(false, vastaus);
     }
 }

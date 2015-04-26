@@ -124,12 +124,16 @@ public class Peli {
     public Kortti[][] getKorttiTaulukko() {
         return kortit;
     }
+    public ArrayList<Color> getVarilista(){
+        return this.varitPelissa;
+    }
     public Pelaaja getPelaaja(){
         return this.pelaaja;
     }
     public Kortti getKortti(int y, int x){
         return kortit[y][x];
     }
+    
     /**
      * metodi kääntää halutun kortin eli muuttaa sen käännetyksi
      * @param kortti kortti, joka halutaan kääntää
