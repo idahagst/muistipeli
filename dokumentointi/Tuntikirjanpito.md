@@ -16,3 +16,4 @@
 21.4.2015 2h Sain toimimaan muut jutut, mutta lopeta painike toimii edelleen väärin ja kortteja kääntäessä toista korttia ei näe. Jos pelissä vaihtaa tasoa kesken kaiken, niin silloinkin tulokset nollaantuu vasta kun painaa ekaa kertaa jotain korttia.
 23.4.2015 4h Timerin lisääminen, jotta peli näyttää käännetyt kortit aina ja muuta säätöä
 24.4.2015 2h Sekvenssikaaviot, pit ja muut palautukseen liittyvät jutut
+26.4.2015 3h Korjasin koodia ja yritin tehdä jar tiedoston
