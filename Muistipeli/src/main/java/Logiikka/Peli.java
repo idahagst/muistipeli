@@ -26,6 +26,7 @@ public class Peli {
     private int leveys;
     private ArrayList<Color> varit;
     private ArrayList<Color> varitPelissa;
+    private Kortti[][] käännettyKortti;
     /**
      * konstruktori luo pelin, asettaa sille pelaajan, luo listan väreistä,
      * joita kortit voivat olla ja lisää listalle värejä
@@ -144,6 +145,7 @@ public class Peli {
             ensimmainenKorttiKaannetty = true;
             ekaKortti = kortti;
             ekaKortti.kaannaKortti();
+            
 
         } else if (ensimmainenKorttiKaannetty == true && toinenKorttiKaannetty == false) {
             toinenKorttiKaannetty = true;

@@ -31,7 +31,7 @@ import javax.swing.WindowConstants;
  * @author Ida
  */
 public class Kayttoliittyma extends JPanel implements ActionListener, MouseListener {
-    
+
     private Peli muistipeli;
     private Pelaaja pelaaja;
     private JFrame peliIkkuna;
@@ -45,6 +45,8 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private int x;
     private int y;
     private Timer timer;
+    private int kaannettyKorttiX;
+    private int kaannettyKorttiY;
 //    private long aloitusaika;
 //    private long lopetusaika;
 
@@ -63,7 +65,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         Ikkuna();
         pelaaja = muistipeli.getPelaaja();
         this.timer = new Timer(1000, new MyTimerActionListener());
-        
+
     }
 
     /**
@@ -136,25 +138,31 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     class RectDraw extends JPanel {
 
         private Peli muistipeli;
-/**
- * konstruktorille liitetään peli, josta saadaan tieto, mitä piirretään
- * @param muistipeli 
- */
+
+        /**
+         * konstruktorille liitetään peli, josta saadaan tieto, mitä piirretään
+         *
+         * @param muistipeli
+         */
         public RectDraw(Peli muistipeli) {
             this.muistipeli = muistipeli;
         }
-/**
- * metodi kutsuu toista metodia, joka piirtää pelin kortit
- * @param g 
- */
+
+        /**
+         * metodi kutsuu toista metodia, joka piirtää pelin kortit
+         *
+         * @param g
+         */
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             draw(g);
         }
-/**
- * metodi piirtää pelin kortit laudalle
- * @param g 
- */
+
+        /**
+         * metodi piirtää pelin kortit laudalle
+         *
+         * @param g
+         */
         public void draw(Graphics g) {
             if (muistipeli.getPelinKorkeus() == 2) {
                 for (int i = 0; i < 3; i++) {
@@ -223,67 +231,72 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         }
     }
 
-    class MyTimerActionListener implements ActionListener{
+    class MyTimerActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (muistipeli.onkoKaksiKorttiaKaannetty()) {
-            muistipeli.olikoKortitSamat();
-            if (muistipeli.onkoKaikkiKortitKaannetty()) {
-                lopetaPeli();
+                muistipeli.olikoKortitSamat();
+                if (muistipeli.onkoKaikkiKortitKaannetty()) {
+                    lopetaPeli();
+                }
+                pelilauta.repaint();
+                timer.stop();
             }
-            pelilauta.repaint();
-            timer.stop();
+            yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
+            loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
+
         }
-        yritystenMaara.setText("Yritykset " + pelaaja.getYritystenMaara());
-        loydetytParit.setText("Löydetyt " + pelaaja.getLoydetytParit());
-        
-        }
-        
+
     }
+
     @Override
-    public void mouseClicked(MouseEvent e)  {
+    public void mouseClicked(MouseEvent e) {
         int ykoordinaatti = e.getY() / 120;
         int xkoordinaatti = e.getX() / 120;
         int y = e.getY();
         int x = e.getX();
         Color lapinakyva = new Color(0, 0, 0, 0);
-                if (muistipeli.getPelinKorkeus() == 2) {
-                    if (y < 120 && y > 20 || y < 240 && y > 140) {
-                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260) {
-                            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-                            if(kortti.getVari().equals(lapinakyva)){
-                                
-                            } else {
+        if (ykoordinaatti != kaannettyKorttiY || xkoordinaatti != kaannettyKorttiX) {
+            kaannettyKorttiY = ykoordinaatti;
+            kaannettyKorttiX = xkoordinaatti;
+            if (muistipeli.getPelinKorkeus() == 2) {
+                if (y < 120 && y > 20 || y < 240 && y > 140) {
+                    if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260) {
+                        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+                        if (kortti.getVari().equals(lapinakyva)) {
+
+                        } else {
                             muistipeli.kaannaKortti(kortti);
-                            }
-                        }
-                    }
-                }else if (muistipeli.getPelinKorkeus() == 3) {
-                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260) {
-                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260  || x <480 && x >380) {
-                            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-                            if(kortti.getVari().equals(lapinakyva)){
-                                
-                            } else {
-                            muistipeli.kaannaKortti(kortti);
-                            }
-                        }
-                    }
-                }else if (muistipeli.getPelinKorkeus() == 4) {
-                    if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260 || y <480 && y >380) {
-                        if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260 || x <480 && x >380) {
-                            Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-                            if(kortti.getVari().equals(lapinakyva)){
-                                
-                            } else {
-                            muistipeli.kaannaKortti(kortti);
-                            }
                         }
                     }
                 }
-            pelilauta.repaint();
-            timer.start();
+            } else if (muistipeli.getPelinKorkeus() == 3) {
+                if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260) {
+                    if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260 || x < 480 && x > 380) {
+                        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+                        if (kortti.getVari().equals(lapinakyva)) {
+
+                        } else {
+                            muistipeli.kaannaKortti(kortti);
+                        }
+                    }
+                }
+            } else if (muistipeli.getPelinKorkeus() == 4) {
+                if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260 || y < 480 && y > 380) {
+                    if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260 || x < 480 && x > 380) {
+                        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
+                        if (kortti.getVari().equals(lapinakyva)) {
+
+                        } else {
+                            muistipeli.kaannaKortti(kortti);
+                        }
+                    }
+                }
+            }
+        }
+        pelilauta.repaint();
+        timer.start();
     }
 
     @Override
