@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,8 +46,6 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private Timer timer;
     private int kaannettyKorttiX;
     private int kaannettyKorttiY;
-//    private long aloitusaika;
-//    private long lopetusaika;
 
     /**
      * konstruktori yhdistää logiikassa käytettävän pelin käyttöliittymään eli
@@ -62,10 +59,9 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
 
         this.muistipeli = peli;
         pelilauta = new RectDraw(peli);
-        Ikkuna();
         pelaaja = muistipeli.getPelaaja();
         this.timer = new Timer(1000, new MyTimerActionListener());
-
+        Ikkuna();
     }
 
     /**
@@ -113,15 +109,12 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
      * yritystä hän käytti ja kuinka monta paria hän löysi
      */
     public void lopetaPeli() {
-//        this.lopetusaika = System.currentTimeMillis();
-//        double kaytettyaika = (lopetusaika - aloitusaika)/ 1000;
         JPanel lopetuspaneeli = new JPanel(new GridLayout(2, 1));
         JLabel lopetusteksti = new JLabel("Peli päättyi!");
-        JLabel toinenteksti = new JLabel("Käytit " + pelaaja.getYritystenMaara() + " yritystä ja löysit " + pelaaja.getLoydetytParit() + " paria.");
-//        JLabel kolmasteksti = new JLabel("Käytit aikaa " + kaytettyaika + "sekuntia");
+        JLabel toinenteksti = new JLabel("Käytit " + pelaaja.getYritystenMaara()
+                + " yritystä ja löysit " + pelaaja.getLoydetytParit() + " paria.");
         lopetuspaneeli.add(lopetusteksti);
         lopetuspaneeli.add(toinenteksti);
-//        lopetuspaneeli.add(kolmasteksti);
         peliIkkuna.add(lopetuspaneeli, BorderLayout.SOUTH);
         muistipeli.getPelaaja().nollaaLoydetyt();
         muistipeli.getPelaaja().nollaaYritykset();
@@ -213,7 +206,6 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
             muistipeli.aloitaPeli(2, 3);
             pelaaja.nollaaLoydetyt();
             pelaaja.nollaaYritykset();
-//            long aloitusaika = System.currentTimeMillis();
             pelilauta.repaint();
         } else if (e.getSource() == aloitakeskivaikea) {
             muistipeli.aloitaPeli(3, 4);
@@ -249,50 +241,98 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
         }
 
     }
+/**
+ * metodi kääntää kortin, jos kyseessä on helppo peli
+ * @param yTaulukossa y-koordinaatti taulukossa
+ * @param xTaulukossa x-koordinaatti taulukossa
+ * @param ykoordinaatti y-koordinaatti pelilaudalla
+ * @param xkoordinaatti x-koordinaatti pelilaudalla
+ */
+    public void kaannaKorttiHelpossaPelissa(int yTaulukossa, int xTaulukossa, int ykoordinaatti, int xkoordinaatti) {
+        Color lapinakyva = new Color(0, 0, 0, 0);
+        if (ykoordinaatti < 120 && ykoordinaatti > 20 || ykoordinaatti < 240 && ykoordinaatti > 140) {
+            if (xkoordinaatti < 120 && xkoordinaatti > 20 || xkoordinaatti < 240 && xkoordinaatti > 140 || xkoordinaatti < 360 && xkoordinaatti > 260) {
+                Kortti kortti = muistipeli.getKortti(yTaulukossa, xTaulukossa);
+                if (kortti.getVari().equals(lapinakyva)) {
+
+                } else {
+                    muistipeli.kaannaKortti(kortti);
+                }
+            }
+        }
+    }
+/**
+ * metodi kääntää kortin, jos kyseessä on keskivaikea peli
+ * @param yTaulukossa y-koordinaatti taulukossa
+ * @param xTaulukossa x-koordinaatti taulukossa
+ * @param ykoordinaatti y-koordinaatti pelilaudalla
+ * @param xkoordinaatti x-koordinaatti pelilaudalla
+ */
+    public void kaannaKorttiKeskivaikeassaPelissa(int yTaulukossa, int xTaulukossa, int ykoordinaatti, int xkoordinaatti) {
+        Color lapinakyva = new Color(0, 0, 0, 0);
+        if (ykoordinaatti < 120 && ykoordinaatti > 20 || ykoordinaatti < 240 && ykoordinaatti > 140 || ykoordinaatti < 360 && ykoordinaatti > 260) {
+            if (xkoordinaatti < 120 && xkoordinaatti > 20 || xkoordinaatti < 240 && xkoordinaatti > 140 || xkoordinaatti < 360 && xkoordinaatti > 260 || xkoordinaatti < 480 && xkoordinaatti > 380) {
+                Kortti kortti = muistipeli.getKortti(yTaulukossa, xTaulukossa);
+                if (kortti.getVari().equals(lapinakyva)) {
+
+                } else {
+                    muistipeli.kaannaKortti(kortti);
+                }
+            }
+        }
+    }
+/**
+ * metodi kääntää kortin, jos kyseessä on vaikea peli
+ * @param yTaulukossa y-koordinaatti taulukossa
+ * @param xTaulukossa x-koordinaatti taulukossa
+ * @param ykoordinaatti y-koordinaatti pelilaudalla
+ * @param xkoordinaatti x-koordinaatti pelilaudalla
+ */
+    public void kaannaKorttiVaikeassaPelissa(int yTaulukossa, int xTaulukossa, int ykoordinaatti, int xkoordinaatti) {
+        Color lapinakyva = new Color(0, 0, 0, 0);
+        if (ykoordinaatti < 120 && ykoordinaatti > 20 || ykoordinaatti < 240 && ykoordinaatti > 140 || ykoordinaatti < 360 && ykoordinaatti > 260 || ykoordinaatti < 480 && ykoordinaatti > 380) {
+            if (xkoordinaatti < 120 && xkoordinaatti > 20 || xkoordinaatti < 240 && xkoordinaatti > 140 || xkoordinaatti < 360 && xkoordinaatti > 260 || xkoordinaatti < 480 && xkoordinaatti > 380) {
+                Kortti kortti = muistipeli.getKortti(yTaulukossa, xTaulukossa);
+                if (kortti.getVari().equals(lapinakyva)) {
+
+                } else {
+                    muistipeli.kaannaKortti(kortti);
+                }
+            }
+        }
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int ykoordinaatti = e.getY() / 120;
-        int xkoordinaatti = e.getX() / 120;
-        int y = e.getY();
-        int x = e.getX();
+        int yTaulukossa = e.getY() / 120;
+        int xTaulukossa = e.getX() / 120;
+        int ykoordinaatti = e.getY();
+        int xkoordinaatti = e.getX();
         Color lapinakyva = new Color(0, 0, 0, 0);
-        if (ykoordinaatti != kaannettyKorttiY || xkoordinaatti != kaannettyKorttiX) {
-            kaannettyKorttiY = ykoordinaatti;
-            kaannettyKorttiX = xkoordinaatti;
+        if (muistipeli.onkoEkaKorttiKaannetty() && (yTaulukossa != kaannettyKorttiY || xTaulukossa != kaannettyKorttiX)) {
+            kaannettyKorttiY = yTaulukossa;
+            kaannettyKorttiX = xTaulukossa;
             if (muistipeli.getPelinKorkeus() == 2) {
-                if (y < 120 && y > 20 || y < 240 && y > 140) {
-                    if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260) {
-                        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-                        if (kortti.getVari().equals(lapinakyva)) {
-
-                        } else {
-                            muistipeli.kaannaKortti(kortti);
-                        }
-                    }
-                }
+                kaannaKorttiHelpossaPelissa(yTaulukossa, xTaulukossa, ykoordinaatti, xkoordinaatti);
+               
             } else if (muistipeli.getPelinKorkeus() == 3) {
-                if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260) {
-                    if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260 || x < 480 && x > 380) {
-                        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-                        if (kortti.getVari().equals(lapinakyva)) {
-
-                        } else {
-                            muistipeli.kaannaKortti(kortti);
-                        }
-                    }
-                }
+                kaannaKorttiKeskivaikeassaPelissa(yTaulukossa, xTaulukossa, ykoordinaatti, xkoordinaatti);
+                
             } else if (muistipeli.getPelinKorkeus() == 4) {
-                if (y < 120 && y > 20 || y < 240 && y > 140 || y < 360 && y > 260 || y < 480 && y > 380) {
-                    if (x < 120 && x > 20 || x < 240 && x > 140 || x < 360 && x > 260 || x < 480 && x > 380) {
-                        Kortti kortti = muistipeli.getKortti(ykoordinaatti, xkoordinaatti);
-                        if (kortti.getVari().equals(lapinakyva)) {
-
-                        } else {
-                            muistipeli.kaannaKortti(kortti);
-                        }
-                    }
-                }
+                kaannaKorttiVaikeassaPelissa(yTaulukossa, xTaulukossa, ykoordinaatti, xkoordinaatti);
+                
+            }
+        } else if (muistipeli.onkoEkaKorttiKaannetty() == false) {
+            kaannettyKorttiY = yTaulukossa;
+            kaannettyKorttiX = xTaulukossa;
+            if (muistipeli.getPelinKorkeus() == 2) {
+                kaannaKorttiHelpossaPelissa(yTaulukossa, xTaulukossa, ykoordinaatti, xkoordinaatti);
+                
+            } else if (muistipeli.getPelinKorkeus() == 3) {
+                kaannaKorttiKeskivaikeassaPelissa(yTaulukossa, xTaulukossa, ykoordinaatti, xkoordinaatti);
+               
+            } else if (muistipeli.getPelinKorkeus() == 4) {
+                kaannaKorttiVaikeassaPelissa(yTaulukossa, xTaulukossa, ykoordinaatti, xkoordinaatti);
             }
         }
         pelilauta.repaint();
@@ -300,20 +340,24 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e
+    ) {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e
+    ) {
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e
+    ) {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e
+    ) {
     }
 
 }
