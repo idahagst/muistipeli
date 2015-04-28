@@ -18,3 +18,5 @@ peli tajuaa, että painettaisiin kortista. Myös joskus on ongelmaa esim. jos pa
 23.4.2015 4h Timerin lisääminen, jotta peli näyttää käännetyt kortit aina ja muuta säätöä
 24.4.2015 2h Sekvenssikaaviot, pit ja muut palautukseen liittyvät jutut
 26.4.2015 3h Korjasin koodia ja yritin tehdä jar tiedoston
+27.4.2015 3h Demo ja koodausta
+28.4.2015 3h Yritin korjata koodia mm. ettei samaa korttia voi painaa 
