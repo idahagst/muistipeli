@@ -40,7 +40,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     private JButton lopeta;
     private JLabel yritystenMaara;
     private JLabel loydetytParit;
-    private RectDraw pelilauta;
+    private PiirtoTyokalu pelilauta;
     private int x;
     private int y;
     private Timer timer;
@@ -59,7 +59,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
     public Kayttoliittyma(Peli peli) {
 
         this.muistipeli = peli;
-        pelilauta = new RectDraw(peli);
+        pelilauta = new PiirtoTyokalu(peli);
         pelaaja = muistipeli.getPelaaja();
         this.timer = new Timer(1000, new MyTimerActionListener());
         Ikkuna();
@@ -129,7 +129,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
      * luokka piirtää pelilaudalle muistipelin kortit riippuen siitä, minkä
      * tason pelaaja valitsee
      */
-    class RectDraw extends JPanel {
+    class PiirtoTyokalu extends JPanel {
 
         private Peli muistipeli;
 
@@ -138,7 +138,7 @@ public class Kayttoliittyma extends JPanel implements ActionListener, MouseListe
          *
          * @param muistipeli
          */
-        public RectDraw(Peli muistipeli) {
+        public PiirtoTyokalu(Peli muistipeli) {
             this.muistipeli = muistipeli;
         }
 
